@@ -1,0 +1,23 @@
+images:
+  image_name: gcr.io/two-eye-two-see/ut-demo-hub-user-image
+  registry:
+    provider: gcloud
+    gcloud:
+      project: two-eye-two-see
+      service_key: gcr-key.json
+
+cluster:
+  provider: # TODO: gcloud or aws
+  gcloud:
+    project: # TODO: Name of your Google Cloud project with the cluster in it
+    cluster: # TODO: Name of your Kubernetes cluster
+    zone: # TODO: Zone or region your cluster is in
+    # Make a service key with permissions to talk to your cluster, put it in secrets/gkee-key.json
+    service_key: gke-key.json
+  aws:
+    project: # TODO: AWS account id
+    zone: # TODO: Zone or region in which your cluster is set up
+    cluster: # TODO: The name of your EKS cluster
+    # TODO: Get AWS credentials that can access your EKS cluster, in same format as ~/.aws/credentials
+    # then put them in secrets/aws-eks-config.cfg
+    service_key: aws-eks-config.cfg
