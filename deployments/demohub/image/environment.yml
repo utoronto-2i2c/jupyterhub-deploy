@@ -12,3 +12,4 @@ dependencies:
     - jupyter-videochat==0.1.1
 
     - jupyter-desktop-server==0.1.2
+    - nbgitpuller==0.8.*
