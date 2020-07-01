@@ -1,4 +1,7 @@
 #!/bin/bash
 
+# Shouldn't be required, but alas.
+jupyter serverextension enable --sys-prefix jupyter_videochat
+
 jupyter labextension install \
     jupyterlab-videochat
