@@ -1,7 +1,14 @@
+channels:
+  - conda-forge
+  - manics
 dependencies:
+  - websockify
+
   - numpy
   - scipy
   - pip
   - pip:
     - jupyterlab > 2.0
     - jupyter-videochat==0.1.1
+
+    - jupyter-desktop-server==0.1.2

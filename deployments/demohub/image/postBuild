@@ -2,4 +2,5 @@
 
 jupyter labextension install \
     @jupyter-widgets/jupyterlab-manager \
-    jupyter-videochat
+    jupyterlab-videochat@0.3.1 \
+    @jupyterlab/server-proxy
