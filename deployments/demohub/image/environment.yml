@@ -4,3 +4,4 @@ dependencies:
   - pip
   - pip:
     - jupyterlab > 2.0
+    - jupyter-videochat==0.1.1
