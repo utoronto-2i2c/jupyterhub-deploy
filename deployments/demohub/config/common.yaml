@@ -1,5 +1,13 @@
 jupyterhub:
+  proxy:
+    https:
+      enabled: true
+      letsencrypt:
+        contactEmail: yuvipanda@gmail.com
   singleuser:
+    workingDir: /home/jovyan
+    storage:
+      type: none
     memory:
-      guarantee: 512M
+      guarantee: 128M
       limit: 1G

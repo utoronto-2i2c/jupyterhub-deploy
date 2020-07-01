@@ -1,1 +1,5 @@
-jupyterhub: {}
+jupyterhub:
+  proxy:
+    https:
+      hosts:
+      - utoronto.hub.2i2c.org

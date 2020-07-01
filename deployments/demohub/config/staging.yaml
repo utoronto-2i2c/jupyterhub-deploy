@@ -1,4 +1,9 @@
 jupyterhub:
+  proxy:
+    https:
+      hosts:
+      - utoronto-staging.hub.2i2c.org
+
   prePuller:
     continuous:
       # Don't need continuous pre-puller on staging

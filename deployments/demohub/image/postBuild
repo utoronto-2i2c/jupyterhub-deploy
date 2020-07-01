@@ -1,6 +1,4 @@
 #!/bin/bash
 
 jupyter labextension install \
-    @jupyter-widgets/jupyterlab-manager \
-    jupyterlab-videochat@0.3.1 \
-    @jupyterlab/server-proxy
+    jupyterlab-videochat

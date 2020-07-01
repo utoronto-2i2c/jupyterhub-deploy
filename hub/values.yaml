@@ -9,6 +9,44 @@ nfsPVC:
     # serverIP: # IP of your NFS Server
     # shareName: # Path of your NFS share export
 
-jupyterhub: {}
-    # z2jh customizations go here
-
+jupyterhub:
+  proxy:
+    chp:
+      resources:
+        requests:
+          # FIXME: We want no guarantees here!!!
+          # This is lowest possible value
+          cpu: 0.001
+          memory: 1Mi
+        limits:
+          memory: 256Mi
+    traefik:
+      resources:
+        requests:
+          memory: 1Mi
+        limits:
+          memory: 512Mi
+  hub:
+    resources:
+      requests:
+        # Very small unit, since we don't want any CPU guarantees
+        # FIXME: Can't seem to get this to null?
+        cpu: 0.001
+        memory: 1Mi
+      limits:
+        memory: 1Gi
+    extraConfig:
+      01-working-dir: |
+        # Make sure working directory is ${HOME}
+        # hubploy has a bug where it unconditionally puts workingdir to be /srv/repo
+        c.KubeSpawner.working_dir = '/home/jovyan'
+  scheduling:
+    userScheduler:
+      enabled: true
+      resources:
+        requests:
+          # FIXME: Just unset this?
+          cpu: 0.01
+          memory: 1Mi
+        limits:
+          memory: 512Mi
