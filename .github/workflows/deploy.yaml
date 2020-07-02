@@ -20,6 +20,12 @@ jobs:
           entrypoint: /bin/bash
           args: -c "echo ${SOPS_GCP_DECRYPT_KEY} >  /tmp/sops-key.json && gcloud auth activate-service-account --key-file /tmp/sops-key.json"
       - uses: docker://yuvipanda/hubploy:202006251816031694ed
+        # FIXME: Why doesn't this come in from the hubploy image?
+        name: Download sops
+        with:
+          entrypoint: /bin/bash
+          args: -c "curl -sSL https://github.com/mozilla/sops/releases/download/v3.5.0/sops-v3.5.0.linux -o /usr/local/bin/sops && chmod +x /usr/local/bin/sops"
+      - uses: docker://yuvipanda/hubploy:202006251816031694ed
         name: build & push image if needed
         with:
           args: build demohub --check-registry --push
