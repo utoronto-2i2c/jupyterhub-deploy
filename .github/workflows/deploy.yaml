@@ -24,7 +24,7 @@ jobs:
         name: Download sops
         with:
           entrypoint: /bin/bash
-          args: -c "curl -sSL https://github.com/mozilla/sops/releases/download/v3.5.0/sops-v3.5.0.linux -O /usr/local/bin/sops && chmod +x /usr/local/bin/sops"
+          args: -c "curl -sSL https://github.com/mozilla/sops/releases/download/v3.5.0/sops-v3.5.0.linux > /usr/local/bin/sops && chmod +x /usr/local/bin/sops"
       - uses: docker://yuvipanda/hubploy:202006251816031694ed
         name: build & push image if needed
         with:
