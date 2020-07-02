@@ -6,6 +6,8 @@ dependencies:
 
   - numpy
   - scipy
+  - ipywidgets
+
   - pip
   - pip:
     - jupyterlab > 2.0

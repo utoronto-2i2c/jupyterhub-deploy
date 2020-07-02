@@ -3,5 +3,6 @@
 # Shouldn't be required, but alas.
 jupyter serverextension enable --sys-prefix jupyter_videochat
 
-jupyter labextension install \
+jupyter labextension install --debug \
+    @jupyter-widgets/jupyterlab-manager@2 \
     jupyterlab-videochat
