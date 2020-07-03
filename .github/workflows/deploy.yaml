@@ -12,34 +12,34 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - uses: docker://yuvipanda/hubploy:202006251816031694ed
+      - uses: docker://yuvipanda/hubploy:20200624125418f86510
         name: unlock git-crypt secrets
         env:
           SOPS_GCP_DECRYPT_KEY: ${{ secrets.SOPS_GCP_DECRYPT_KEY }}
         with:
           entrypoint: /bin/bash
           args: -c "echo ${SOPS_GCP_DECRYPT_KEY} >  /tmp/sops-key.json && gcloud auth activate-service-account --key-file /tmp/sops-key.json"
-      - uses: docker://yuvipanda/hubploy:202006251816031694ed
+      - uses: docker://yuvipanda/hubploy:20200624125418f86510
         # FIXME: Why doesn't this come in from the hubploy image?
         name: Download sops
         with:
           entrypoint: /bin/bash
           args: -c "curl -sSL https://github.com/mozilla/sops/releases/download/v3.5.0/sops-v3.5.0.linux > /usr/local/bin/sops && chmod +x /usr/local/bin/sops"
-      - uses: docker://yuvipanda/hubploy:202006251816031694ed
+      - uses: docker://yuvipanda/hubploy:20200624125418f86510
         name: build & push image if needed
         with:
           args: build demohub --check-registry --push
-      - uses: docker://yuvipanda/hubploy:202006251816031694ed
+      - uses: docker://yuvipanda/hubploy:20200624125418f86510
         name: Setup Helm
         with:
           entrypoint: /bin/bash
           args: -c "helm repo add jupyterhub https://jupyterhub.github.io/helm-chart/ && helm repo update"
-      - uses: docker://yuvipanda/hubploy:202006251816031694ed
+      - uses: docker://yuvipanda/hubploy:20200624125418f86510
         name: Deploy to staging
         if: github.ref == 'refs/heads/staging'
         with:
           args: deploy demohub hub staging
-      - uses: docker://yuvipanda/hubploy:202006251816031694ed
+      - uses: docker://yuvipanda/hubploy:20200624125418f86510
         name: Deploy to prod
         if: github.ref == 'refs/heads/prod'
         with:
