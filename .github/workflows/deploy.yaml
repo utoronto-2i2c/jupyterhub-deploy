@@ -36,7 +36,7 @@ jobs:
         name: Setup Helm
         with:
           entrypoint: /bin/bash
-          args: -c "helm repo add jupyterhub https://jupyterhub.github.io/helm-chart/ && helm repo update"
+          args: -c "helm3 repo add jupyterhub https://jupyterhub.github.io/helm-chart/ && helm3 repo update"
       - uses: docker://yuvipanda/hubploy:202007031032027f6164
         name: Deploy to staging
         if: github.ref == 'refs/heads/staging'
