@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - uses: docker://yuvipanda/hubploy:202007030947410a596a
+      - uses: docker://yuvipanda/hubploy:202007031032027f6164
         name: unlock git-crypt secrets
         env:
           SOPS_GCP_DECRYPT_KEY: ${{ secrets.SOPS_GCP_DECRYPT_KEY }}
@@ -26,25 +26,25 @@ jobs:
           # We explicitly pass this env var only to steps that need it, so we
           # don't accidentally authenticate in places we don't need to.
           args: -c "echo ${SOPS_GCP_DECRYPT_KEY} >  sops-key.json"
-      - uses: docker://yuvipanda/hubploy:202007030947410a596a
+      - uses: docker://yuvipanda/hubploy:202007031032027f6164
         name: build & push image if needed
         env:
           GOOGLE_APPLICATION_CREDENTIALS: "sops-key.json"
         with:
           args: build demohub --check-registry --push
-      - uses: docker://yuvipanda/hubploy:202007030947410a596a
+      - uses: docker://yuvipanda/hubploy:202007031032027f6164
         name: Setup Helm
         with:
           entrypoint: /bin/bash
           args: -c "helm repo add jupyterhub https://jupyterhub.github.io/helm-chart/ && helm repo update"
-      - uses: docker://yuvipanda/hubploy:202007030947410a596a
+      - uses: docker://yuvipanda/hubploy:202007031032027f6164
         name: Deploy to staging
         if: github.ref == 'refs/heads/staging'
         env:
           GOOGLE_APPLICATION_CREDENTIALS: "sops-key.json"
         with:
           args: deploy demohub hub staging
-      - uses: docker://yuvipanda/hubploy:202007030947410a596a
+      - uses: docker://yuvipanda/hubploy:202007031032027f6164
         name: Deploy to prod
         if: github.ref == 'refs/heads/prod'
         env:
