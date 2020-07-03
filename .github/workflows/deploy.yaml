@@ -42,6 +42,7 @@ jobs:
         if: github.ref == 'refs/heads/staging'
         env:
           GOOGLE_APPLICATION_CREDENTIALS: "sops-key.json"
+          HELM_EXECUTABLE: "helm3"
         with:
           args: deploy demohub hub staging
       - uses: docker://yuvipanda/hubploy:202007031032027f6164
@@ -49,5 +50,6 @@ jobs:
         if: github.ref == 'refs/heads/prod'
         env:
           GOOGLE_APPLICATION_CREDENTIALS: "sops-key.json"
+          HELM_EXECUTABLE: "helm3"
         with:
           args: deploy demohub hub prod
