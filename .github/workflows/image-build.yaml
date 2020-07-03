@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - uses: docker://yuvipanda/hubploy:20200624125418f86510
+      - uses: docker://yuvipanda/hubploy:202007030947410a596a
         name: test building image
         with:
           args: build demohub
