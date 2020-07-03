@@ -18,15 +18,18 @@ jobs:
           SOPS_GCP_DECRYPT_KEY: ${{ secrets.SOPS_GCP_DECRYPT_KEY }}
         with:
           entrypoint: /bin/bash
-          args: -c "echo ${SOPS_GCP_DECRYPT_KEY} >  /tmp/sops-key.json && gcloud auth activate-service-account --key-file /tmp/sops-key.json"
-      - uses: docker://yuvipanda/hubploy:202007030947410a596a
-        # FIXME: Why doesn't this come in from the hubploy image?
-        name: Download sops
-        with:
-          entrypoint: /bin/bash
-          args: -c "curl -sSL https://github.com/mozilla/sops/releases/download/v3.5.0/sops-v3.5.0.linux > /usr/local/bin/sops && chmod +x /usr/local/bin/sops"
+          # Google Application Default Credentials are used to authenticate sops
+          # to GCP KMS for decrypting our secrets. We'll set the appropriate env
+          # var (GOOGLE_APPLICATION_CREDENTIALS) to point to this service account
+          # json file. See https://cloud.google.com/docs/authentication/production
+          # for more info.
+          # We explicitly pass this env var only to steps that need it, so we
+          # don't accidentally authenticate in places we don't need to.
+          args: -c "echo ${SOPS_GCP_DECRYPT_KEY} >  ${HOME}/sops-key.json"
       - uses: docker://yuvipanda/hubploy:202007030947410a596a
         name: build & push image if needed
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: "$HOME/sops-key.json"
         with:
           args: build demohub --check-registry --push
       - uses: docker://yuvipanda/hubploy:202007030947410a596a
@@ -37,10 +40,14 @@ jobs:
       - uses: docker://yuvipanda/hubploy:202007030947410a596a
         name: Deploy to staging
         if: github.ref == 'refs/heads/staging'
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: "$HOME/sops-key.json"
         with:
           args: deploy demohub hub staging
       - uses: docker://yuvipanda/hubploy:202007030947410a596a
         name: Deploy to prod
         if: github.ref == 'refs/heads/prod'
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: "$HOME/sops-key.json"
         with:
           args: deploy demohub hub prod
