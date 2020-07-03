@@ -2,7 +2,7 @@ jupyterhub:
   proxy:
     https:
       hosts:
-      - utoronto-staging.hub.2i2c.org
+      - staging.utoronto.2i2c.cloud
 
   prePuller:
     continuous:

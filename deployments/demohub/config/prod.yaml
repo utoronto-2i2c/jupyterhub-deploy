@@ -2,4 +2,4 @@ jupyterhub:
   proxy:
     https:
       hosts:
-      - utoronto.hub.2i2c.org
+      - utoronto.2i2c.cloud
