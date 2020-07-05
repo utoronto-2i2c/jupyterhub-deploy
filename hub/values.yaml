@@ -27,6 +27,10 @@ jupyterhub:
           memory: 512Mi
         limits:
           memory: 512Mi
+  singleuser:
+    events: false
+    cloudMetadata:
+      enabled: true
   hub:
     resources:
       requests:
