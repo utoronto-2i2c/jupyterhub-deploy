@@ -59,7 +59,8 @@ jupyterhub:
         }
   scheduling:
     userScheduler:
-      enabled: true
+      # FIXME: I *think* this makes user spawns much slower, need to validate
+      enabled: false
       resources:
         requests:
           cpu: 0.1
