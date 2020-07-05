@@ -16,14 +16,15 @@ jupyterhub:
         requests:
           # FIXME: We want no guarantees here!!!
           # This is lowest possible value
-          cpu: 0.001
-          memory: 1Mi
+          cpu: 0.5
+          memory: 256Mi
         limits:
           memory: 256Mi
     traefik:
       resources:
         requests:
-          memory: 1Mi
+          cpu: 0.5
+          memory: 512Mi
         limits:
           memory: 512Mi
   hub:
