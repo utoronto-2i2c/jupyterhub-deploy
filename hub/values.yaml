@@ -14,8 +14,6 @@ jupyterhub:
     chp:
       resources:
         requests:
-          # FIXME: We want no guarantees here!!!
-          # This is lowest possible value
           cpu: 0.5
           memory: 256Mi
         limits:
@@ -32,9 +30,12 @@ jupyterhub:
     cloudMetadata:
       enabled: true
   hub:
+    concurrentSpawnLimit: 200
+    readinessProbe:
+      enabled: false
+
     resources:
       requests:
-        # FIXME: Set up
         cpu: 2
         memory: 2Gi
       limits:
@@ -49,8 +50,7 @@ jupyterhub:
       enabled: true
       resources:
         requests:
-          # FIXME: Just unset this?
-          cpu: 0.01
-          memory: 1Mi
+          cpu: 0.1
+          memory: 512Mi
         limits:
           memory: 512Mi
