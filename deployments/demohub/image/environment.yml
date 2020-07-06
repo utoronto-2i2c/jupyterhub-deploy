@@ -6,6 +6,9 @@ dependencies:
 
   - numpy
   - scipy
+  - matplotlib
+  - pandas
+  - seaborn
   - ipywidgets
 
   - pip
@@ -16,3 +19,5 @@ dependencies:
     - jupyter-desktop-server==0.1.2
     - nbgitpuller==0.8.*
     - nbresuse==0.3.6
+    - datascience
+    - nbinteract
