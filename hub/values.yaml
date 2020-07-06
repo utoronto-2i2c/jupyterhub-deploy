@@ -14,39 +14,56 @@ jupyterhub:
     chp:
       resources:
         requests:
-          # FIXME: We want no guarantees here!!!
-          # This is lowest possible value
-          cpu: 0.001
-          memory: 1Mi
+          cpu: 0.5
+          memory: 256Mi
         limits:
           memory: 256Mi
     traefik:
       resources:
         requests:
-          memory: 1Mi
+          cpu: 0.5
+          memory: 512Mi
         limits:
           memory: 512Mi
+  singleuser:
+    events: false
+    cloudMetadata:
+      enabled: true
   hub:
+    concurrentSpawnLimit: 200
+    readinessProbe:
+      enabled: false
+
     resources:
       requests:
-        # Very small unit, since we don't want any CPU guarantees
-        # FIXME: Can't seem to get this to null?
-        cpu: 0.001
-        memory: 1Mi
+        cpu: 2
+        memory: 2Gi
       limits:
-        memory: 1Gi
+        memory: 2Gi
     extraConfig:
       01-working-dir: |
         # Make sure working directory is ${HOME}
         # hubploy has a bug where it unconditionally puts workingdir to be /srv/repo
         c.KubeSpawner.working_dir = '/home/jovyan'
+      02-prometheus: |
+        # Allow unauthenticated prometheus requests
+        # Otherwise our prometheus server can't get to these
+        c.JupyterHub.authenticate_prometheus = False
+      03-no-setuid: |
+        # Disable 'sudo' & similar binaries, regardless of image contents
+        c.KubeSpawner.extra_container_config = {
+          'securityContext': {
+            # Explicitly disallow setuid binaries from working inside the container
+            'allowPrivilegeEscalation': False
+          }
+        }
   scheduling:
     userScheduler:
-      enabled: true
+      # FIXME: I *think* this makes user spawns much slower, need to validate
+      enabled: false
       resources:
         requests:
-          # FIXME: Just unset this?
-          cpu: 0.01
-          memory: 1Mi
+          cpu: 0.1
+          memory: 512Mi
         limits:
           memory: 512Mi

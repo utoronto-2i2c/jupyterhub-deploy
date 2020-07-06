@@ -9,5 +9,5 @@ jupyterhub:
     storage:
       type: none
     memory:
-      guarantee: 128M
+      guarantee: 32M
       limit: 1G
