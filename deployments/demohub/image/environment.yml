@@ -23,3 +23,5 @@ dependencies:
     - nbresuse==0.3.6
     - datascience
     - nbinteract
+    - geojson
+    - folium
