@@ -13,6 +13,9 @@ dependencies:
   - sympy
   - networkx
   - numba
+  - scikit-learn
+  - geopy
+
   - pip
   - pip:
     - jupyterlab > 2.0
