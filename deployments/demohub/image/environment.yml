@@ -10,7 +10,9 @@ dependencies:
   - pandas
   - seaborn
   - ipywidgets
-
+  - sympy
+  - networkx
+  - numba
   - pip
   - pip:
     - jupyterlab > 2.0
