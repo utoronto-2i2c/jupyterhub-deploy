@@ -12,5 +12,5 @@ jupyterhub:
         pvcName: home-nfs
         subPath: "{username}"
     memory:
-      guarantee: 32M
+      guarantee: 128M
       limit: 1G
