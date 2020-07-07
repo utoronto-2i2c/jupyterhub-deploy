@@ -13,6 +13,7 @@ dependencies:
   - sympy
   - networkx
   - numba
+  - jupytext
 
   - pip
   - pip:
