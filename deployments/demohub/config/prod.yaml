@@ -1,7 +1,7 @@
 jupyterhub:
   auth:
     google:
-      callbackUrl: "https://staging.utoronto.2i2c.cloud/hub/oauth_callback"
+      callbackUrl: "https://utoronto.2i2c.cloud/hub/oauth_callback"
   proxy:
     https:
       hosts:
