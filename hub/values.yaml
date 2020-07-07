@@ -26,6 +26,8 @@ jupyterhub:
         limits:
           memory: 512Mi
   singleuser:
+    nodeSelector:
+      hub.jupyter.org/pool-name: user-pool
     events: false
     cloudMetadata:
       enabled: true
