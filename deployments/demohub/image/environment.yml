@@ -13,7 +13,6 @@ dependencies:
   - sympy
   - networkx
   - numba
-  - jupytext
 
   - pip
   - pip:
@@ -29,3 +28,4 @@ dependencies:
     - folium
     - scikit-learn
     - geopy
+    - jupytext
