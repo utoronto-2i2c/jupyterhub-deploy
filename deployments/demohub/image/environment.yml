@@ -29,3 +29,6 @@ dependencies:
     - scikit-learn
     - geopy
     - jupytext
+    # Request from nathan
+    - RISE
+    - jupyter_contrib_nbextensions
