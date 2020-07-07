@@ -13,8 +13,6 @@ dependencies:
   - sympy
   - networkx
   - numba
-  - scikit-learn
-  - geopy
 
   - pip
   - pip:
@@ -28,3 +26,5 @@ dependencies:
     - nbinteract
     - geojson
     - folium
+    - scikit-learn
+    - geopy
