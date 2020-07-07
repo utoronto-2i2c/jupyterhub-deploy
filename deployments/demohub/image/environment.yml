@@ -10,6 +10,9 @@ dependencies:
   - pandas
   - seaborn
   - ipywidgets
+  - sympy
+  - networkx
+  - numba
 
   - pip
   - pip:
@@ -21,3 +24,7 @@ dependencies:
     - nbresuse==0.3.6
     - datascience
     - nbinteract
+    - geojson
+    - folium
+    - scikit-learn
+    - geopy
