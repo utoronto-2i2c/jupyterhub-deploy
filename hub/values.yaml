@@ -10,6 +10,14 @@ nfsPVC:
     shareName: /srv/homes
 
 jupyterhub:
+  auth:
+    admin:
+      users:
+        - yuvipanda@gmail.com
+        - choldgraf@gmail.com
+    type: google
+    google:
+      loginService: "University of Toronto ID"
   proxy:
     chp:
       resources:
