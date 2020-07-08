@@ -22,14 +22,14 @@ jupyterhub:
     chp:
       resources:
         requests:
-          cpu: 0.5
+          cpu: 0.1
           memory: 256Mi
         limits:
           memory: 256Mi
     traefik:
       resources:
         requests:
-          cpu: 0.5
+          cpu: 0.1
           memory: 512Mi
         limits:
           memory: 512Mi
@@ -44,8 +44,8 @@ jupyterhub:
 
     resources:
       requests:
-        cpu: 2
-        memory: 2Gi
+        cpu: 0.5
+        memory: 512Mi
       limits:
         memory: 2Gi
     extraConfig:
