@@ -33,3 +33,5 @@ dependencies:
     # Request from nathan
     - RISE
     - jupyter_contrib_nbextensions
+    # notebook-to-pdf
+    - notebook-as-pdf
