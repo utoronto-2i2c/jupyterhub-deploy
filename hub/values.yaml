@@ -72,7 +72,7 @@ jupyterhub:
       - name: custom-templates
         gitRepo:
           repository: "https://github.com/2i2c-org/pangeo-custom-jupyterhub-templates"
-          revision: "8c6d241377e8adf8c7840499bee4370502ccbe1a"
+          revision: "966e0991bdb4ece14afda2e210a820a9cc167e3c"
     extraVolumeMounts:
       - mountPath: /usr/local/share/jupyterhub/custom_templates
         name: custom-templates
