@@ -12,7 +12,6 @@ dependencies:
   - ipywidgets
   - sympy
   - networkx
-  - numba
 
   - pip
   - pip:
