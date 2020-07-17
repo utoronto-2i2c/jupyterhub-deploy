@@ -17,6 +17,7 @@ dependencies:
   - pip:
     - jupyterlab > 2.0
     - jupyter-videochat==0.1.1
+    - voila
 
     - jupyter-desktop-server==0.1.3
     - jupyter-server-proxy==1.5.0
