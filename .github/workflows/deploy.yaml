@@ -31,7 +31,7 @@ jobs:
         env:
           GOOGLE_APPLICATION_CREDENTIALS: "sops-key.json"
         with:
-          args: build demohub --check-registry --push
+          args: build utoronto --check-registry --push
       - uses: docker://yuvipanda/hubploy:202007031032027f6164
         name: Setup Helm
         with:
@@ -44,7 +44,7 @@ jobs:
           GOOGLE_APPLICATION_CREDENTIALS: "sops-key.json"
           HELM_EXECUTABLE: "helm3"
         with:
-          args: deploy demohub hub staging
+          args: deploy utoronto hub staging
       - uses: docker://yuvipanda/hubploy:202007031032027f6164
         name: Deploy to prod
         if: github.ref == 'refs/heads/prod'
@@ -52,4 +52,4 @@ jobs:
           GOOGLE_APPLICATION_CREDENTIALS: "sops-key.json"
           HELM_EXECUTABLE: "helm3"
         with:
-          args: deploy demohub hub prod
+          args: deploy utoronto hub prod

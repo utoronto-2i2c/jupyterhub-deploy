@@ -16,4 +16,4 @@ jobs:
       - uses: docker://yuvipanda/hubploy:202007031032027f6164
         name: test building image
         with:
-          args: build demohub
+          args: build utoronto
