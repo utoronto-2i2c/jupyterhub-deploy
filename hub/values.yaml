@@ -19,28 +19,29 @@ jupyterhub:
     google:
       loginService: "University of Toronto ID"
   proxy:
+    nodeSelector:
+      hub.jupyter.org/pool-name: core-pool
     chp:
       resources:
         requests:
           cpu: 0.1
-          memory: 256Mi
+          memory: 128Mi
         limits:
-          memory: 256Mi
+          memory: 512Mi
     traefik:
       resources:
         requests:
           cpu: 0.1
-          memory: 512Mi
+          memory: 256Mi
         limits:
           memory: 512Mi
   hub:
-    concurrentSpawnLimit: 200
-    readinessProbe:
-      enabled: false
+    nodeSelector:
+      hub.jupyter.org/pool-name: core-pool
 
     resources:
       requests:
-        cpu: 0.5
+        cpu: 0.2
         memory: 512Mi
       limits:
         memory: 2Gi
@@ -82,6 +83,9 @@ jupyterhub:
         subPath: "pangeo-custom-jupyterhub-templates/extra-assets"
 
   scheduling:
+    userScheduler:
+      nodeSelector:
+        hub.jupyter.org/pool-name: core-pool
     userScheduler:
       # FIXME: I *think* this makes user spawns much slower, need to validate
       enabled: false
