@@ -7,9 +7,6 @@ images:
       service_key: gcr-key.json
 
 cluster:
-  provider: gcloud
-  gcloud:
-    project: two-eye-two-see
-    cluster: ut-hub
-    zone: us-east1
-    service_key: gke-key.json
+  provider: kubeconfig
+  kubeconfig:
+    filename: kubeconfig.yaml
