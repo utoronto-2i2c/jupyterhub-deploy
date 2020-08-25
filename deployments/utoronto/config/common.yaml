@@ -10,7 +10,7 @@ jupyterhub:
       type: static
       static:
         pvcName: home-nfs
-        subPath: "{username}"
+        subPath: "homes/{username}"
     memory:
       guarantee: 2G
       limit: 4G
