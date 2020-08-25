@@ -6,8 +6,8 @@ nfsPVC:
   enabled: true
   # If you want a PVC with NFS that can be used to mount home directories
   nfs:
-    serverIP: nfsserver
-    shareName: /srv/homes
+    serverIP: jupyterhub-2i2c-nfs-vm
+    shareName: /export/disk1
 
 jupyterhub:
   auth:

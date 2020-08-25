@@ -7,7 +7,7 @@ jupyterhub:
   singleuser:
     workingDir: /home/jovyan
     storage:
-      type: none
+      type: static
       static:
         pvcName: home-nfs
         subPath: "{username}"
