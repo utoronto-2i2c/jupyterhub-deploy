@@ -105,3 +105,8 @@ venv.bak/
 
 # fetched helm charts
 hub/charts/
+
+# terraform state
+.terraform
+*.tfstate
+*.tfstate.backup
