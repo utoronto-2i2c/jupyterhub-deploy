@@ -8,7 +8,7 @@ dependencies:
   - pip
   - pip:
     # Infrastructure things
-    - jupyterlab > 2.0
+    - jupyterlab==2.*
     - jupyter-videochat==0.1.1
     - voila
     - nbgitpuller==0.9.*
@@ -29,6 +29,11 @@ dependencies:
     - sympy
     - networkx
     - scikit-learn
+    - beautifulsoup4
+    - statsmodels
+    - nltk
+    - spacy
+    - geopandas
 
     - datascience
     - geojson
