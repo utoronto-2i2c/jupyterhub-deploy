@@ -10,6 +10,10 @@ nfsPVC:
     shareName: /export/jupyterhub-2i2c-nfs-data-disk-1
 
 jupyterhub:
+  singleuser:
+    nodeSelector:
+      hub.jupyter.org/pool-name: user-alpha-pool
+
   auth:
     admin:
       users:
