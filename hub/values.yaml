@@ -19,7 +19,7 @@ jupyterhub:
       users:
         - yuvipanda@gmail.com
         - choldgraf@gmail.com
-    type: google
+    type: azuread
     google:
       loginService: "University of Toronto ID"
   proxy:
