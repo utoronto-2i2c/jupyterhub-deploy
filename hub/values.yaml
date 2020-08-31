@@ -90,7 +90,6 @@ jupyterhub:
     userScheduler:
       nodeSelector:
         hub.jupyter.org/pool-name: core-pool
-    userScheduler:
       # FIXME: I *think* this makes user spawns much slower, need to validate
       enabled: false
       resources:
