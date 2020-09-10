@@ -1,4 +1,9 @@
 jupyterhub:
+  hub:
+    db:
+      pvc:
+        # This gonna store logs
+        storage: 10Gi
   auth:
     google:
       callbackUrl: "https://utoronto.2i2c.cloud/hub/oauth_callback"

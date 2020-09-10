@@ -42,7 +42,10 @@ jupyterhub:
   hub:
     nodeSelector:
       hub.jupyter.org/pool-name: core-pool
-    
+    db:
+      pvc:
+        # Default seems too slow for our database, causes very bad response times
+        storageClassName: managed-premium
     initContainers:
       - name: templates-clone
         image: alpine/git
