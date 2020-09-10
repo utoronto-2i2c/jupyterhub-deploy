@@ -107,6 +107,11 @@ COPY environment.yml /tmp/
 
 RUN conda env update -p ${CONDA_DIR} -f /tmp/environment.yml
 
+# Install IRKernel
+RUN R --quiet -e "install.packages('IRkernel', version='1.1.1', quiet=TRUE)" && \
+    R --quiet -e "IRkernel::installspec(prefix='${CONDA_DIR}')"
+
+
 COPY install-jupyter-extensions.bash /tmp/install-jupyter-extensions.bash
 RUN /tmp/install-jupyter-extensions.bash
 
