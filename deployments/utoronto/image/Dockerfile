@@ -101,6 +101,14 @@ RUN curl --silent --location --fail ${RSTUDIO_URL} > /tmp/rstudio.deb && \
     dpkg -i /tmp/rstudio.deb && \
     rm /tmp/rstudio.deb
 
+# R_LIBS_USER is set by default in /etc/R/Renviron, which RStudio loads.
+# We uncomment the default, and set what we wanna - so it picks up
+# the packages we install. Without this, RStudio doesn't see the packages
+# that R does.
+# Stolen from https://github.com/jupyterhub/repo2docker/blob/6a07a48b2df48168685bb0f993d2a12bd86e23bf/repo2docker/buildpacks/r.py
+RUN sed -i -e '/^R_LIBS_USER=/s/^/#/' /etc/R/Renviron && \
+    echo "R_LIBS_USER=${R_LIBS_USER}" >> /etc/R/Renviron
+
 USER ${NB_USER}
 
 COPY environment.yml /tmp/
