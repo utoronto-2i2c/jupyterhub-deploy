@@ -134,6 +134,7 @@ RUN /tmp/install-jupyter-extensions.bash
 
 # Setup R to use packagemanager.rstudio.com
 COPY Rprofile.site /etc/R/Rprofile.site
+COPY rsession.conf /etc/rstudio/rsession.conf
 COPY install.R /tmp/install.R
 RUN /tmp/install.R
 
