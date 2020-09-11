@@ -125,18 +125,21 @@ COPY environment.yml /tmp/
 
 RUN conda env update -p ${CONDA_DIR} -f /tmp/environment.yml
 
+# Set CRAN mirror to rspm before we install anything
+COPY Rprofile.site /usr/lib/R/etc/Rprofile.site
+# RStudio needs its own config
+COPY rsession.conf /etc/rstudio/rsession.conf
+
 # Install IRKernel
-RUN R --quiet -e "install.packages('IRkernel', version='1.1.1', quiet=TRUE)" && \
-    R --quiet -e "IRkernel::installspec(prefix='${CONDA_DIR}')"
+RUN r -e "install.packages('IRkernel', version='1.1.1')" && \
+    r -e "IRkernel::installspec(prefix='${CONDA_DIR}')"
+
+# Setup R to use packagemanager.rstudio.com
+COPY install.R /tmp/install.R
+RUN /tmp/install.R
 
 COPY install-jupyter-extensions.bash /tmp/install-jupyter-extensions.bash
 RUN /tmp/install-jupyter-extensions.bash
-
-# Setup R to use packagemanager.rstudio.com
-COPY Rprofile.site /etc/R/Rprofile.site
-COPY rsession.conf /etc/rstudio/rsession.conf
-COPY install.R /tmp/install.R
-RUN /tmp/install.R
 
 # Set bash as shell in terminado.
 ADD jupyter_notebook_config.py  ${CONDA_PREFIX}/etc/jupyter/
