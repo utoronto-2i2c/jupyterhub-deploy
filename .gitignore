@@ -110,3 +110,7 @@ hub/charts/
 .terraform
 *.tfstate
 *.tfstate.backup
+
+# So we don't accidentally commit decrypted secrets
+*.unsafe
+*.unencrypted
