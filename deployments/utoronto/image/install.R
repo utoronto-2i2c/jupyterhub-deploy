@@ -17,7 +17,8 @@ packages = c(
     "gridExtra", "2.3",
     "BHH2", "2016.05.31",
     "nycflights13", "1.0.1",
-    "tinytex", "0.25"
+    "tinytex", "0.25",
+    "spdep", "1.1-5"
 
 )
 for (i in seq(1, length(packages), 2)) {
