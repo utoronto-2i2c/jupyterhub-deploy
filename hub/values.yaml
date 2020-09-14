@@ -13,6 +13,9 @@ jupyterhub:
   debug: 
     enabled: false
   singleuser:
+    imagePullSecret:
+      enabled: true
+      registry: https://containerregistry2i2cutoronto.azurecr.io
     nodeSelector:
       hub.jupyter.org/pool-name: user-alpha-pool
 

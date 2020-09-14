@@ -1,7 +1,7 @@
 images:
-  image_name: gcr.io/two-eye-two-see/ut-demo-hub-user-image
+  image_name: containerregistry2i2cutoronto.azurecr.io/ut-user-image
   registry:
-    provider: gcloud
+    provider: docker
     gcloud:
       project: two-eye-two-see
       service_key: gcr-key.json
