@@ -10,6 +10,11 @@ nfsPVC:
     shareName: /export/jupyterhub-2i2c-nfs-data-disk-1
 
 jupyterhub:
+  cull:
+    # Cull only every 30min, not 10
+    every: 1800
+    # Don't hit the hub API too hard
+    concurrency: 1
   prePuller:
     resources:
       requests:
@@ -43,18 +48,22 @@ jupyterhub:
     chp:
       resources:
         requests:
-          cpu: 0.1
+          cpu: 0.2
           memory: 128Mi
         limits:
           memory: 512Mi
     traefik:
       resources:
         requests:
-          cpu: 0.1
+          cpu: 0.3
           memory: 256Mi
         limits:
           memory: 512Mi
   hub:
+    readinessProbe:
+      enabled: false
+    concurrentSpawnLimit: 100
+    consecutiveFailureLimit: 20
     nodeSelector:
       hub.jupyter.org/pool-name: core-pool
     db:
@@ -108,7 +117,7 @@ jupyterhub:
         subPath: "extra-assets"
     resources:
       requests:
-        cpu: 0.2
+        cpu: 0.5
         memory: 512Mi
       limits:
         memory: 2Gi
@@ -141,6 +150,11 @@ jupyterhub:
         # opaque oid instead.
         # See https://docs.microsoft.com/en-us/azure/active-directory/develop/id-tokens#using-claims-to-reliably-identify-a-user-subject-and-object-id
         c.AzureAdOAuthenticator.username_claim = 'oid'
+      06-activity-resolution: |
+        # 3 minutes resolution for last_activity tracking
+        c.JupyterHub.activity_resolution = 300
+        c.JupyterHub.hub_activity_interval = 300
+        c.JupyterHub.last_activity_interval = 600
 
   scheduling:
     userScheduler:
