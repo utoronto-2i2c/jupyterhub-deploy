@@ -1,10 +1,9 @@
 images:
   image_name: containerregistry2i2cutoronto.azurecr.io/ut-user-image
   registry:
-    provider: docker
-    gcloud:
-      project: two-eye-two-see
-      service_key: gcr-key.json
+    provider: dockerconfig
+    dockerconfig:
+      filename: dockerconfig.json
 
 cluster:
   provider: kubeconfig
