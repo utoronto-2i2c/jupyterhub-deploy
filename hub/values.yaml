@@ -10,6 +10,16 @@ nfsPVC:
     shareName: /export/jupyterhub-2i2c-nfs-data-disk-1
 
 jupyterhub:
+  prePuller:
+    resources:
+      requests:
+        cpu: 0.0001
+        memory: 16Mi
+      # Prepuller memoryl imit was too low, so the pods were getting killed constantly
+      # https://github.com/jupyterhub/zero-to-jupyterhub-k8s/pull/1764#discussion_r487839915
+      limits:
+        cpu: 0.0001
+        memory: 32Mi
   debug: 
     enabled: false
   singleuser:
