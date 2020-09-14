@@ -1,4 +1,8 @@
 jupyterhub:
+  auth:
+    admin:
+      users:
+      - 7c76d04b-2a80-4db1-b985-a2d2fa2f708c
   proxy:
     https:
       enabled: true
