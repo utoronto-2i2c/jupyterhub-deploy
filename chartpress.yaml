@@ -1,0 +1,6 @@
+charts:
+  - name: hub
+    imagePrefix: containerregistry2i2cutoronto.azurecr.io/ut-
+    images:
+      hub:
+        valuesPath: jupyterhub.hub.image
