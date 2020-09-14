@@ -134,9 +134,10 @@ COPY rsession.conf /etc/rstudio/rsession.conf
 RUN r -e "install.packages('IRkernel', version='1.1.1')" && \
     r -e "IRkernel::installspec(prefix='${CONDA_DIR}')"
 
-# Setup R to use packagemanager.rstudio.com
+# Install R packages, cleanup temp package download location
 COPY install.R /tmp/install.R
-RUN /tmp/install.R
+RUN /tmp/install.R && \
+ 	rm -rf /tmp/downloaded_packages/ /tmp/*.rds
 
 COPY install-jupyter-extensions.bash /tmp/install-jupyter-extensions.bash
 RUN /tmp/install-jupyter-extensions.bash
