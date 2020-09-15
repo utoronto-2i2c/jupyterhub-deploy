@@ -13,7 +13,6 @@ dependencies:
   - pip:
     # Infrastructure things
     - jupyterlab==2.*
-    - jupyter-videochat==0.1.1
     - voila==0.1.23
     - nbgitpuller==0.9.*
     - nbresuse==0.3.6
