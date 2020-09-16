@@ -170,10 +170,16 @@ jupyterhub:
       nodeSelector:
         hub.jupyter.org/pool-name: core-pool
       # FIXME: I *think* this makes user spawns much slower, need to validate
-      enabled: false
+      enabled: true
       resources:
         requests:
           cpu: 0.1
           memory: 512Mi
         limits:
           memory: 512Mi
+
+    podPriority:
+      enabled: true
+    userPlaceholder:
+      enabled: false
+      replicas: 100
