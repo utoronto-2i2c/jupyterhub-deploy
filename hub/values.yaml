@@ -65,7 +65,7 @@ jupyterhub:
       registry: https://containerregistry2i2cutoronto.azurecr.io
     image:
       name: containerregistry2i2cutoronto.azurecr.io/ut-hub
-      tag: '0.0.1-n137.h7e1fff3'
+      tag: '0.0.1-n141.h1af1eb5'
     readinessProbe:
       enabled: false
     concurrentSpawnLimit: 100
