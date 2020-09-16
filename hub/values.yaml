@@ -103,7 +103,8 @@ jupyterhub:
         args:
           - -c
           # Do git reset --hard origin/master so we aren't confused by force pushes
-          - "while true; do git fetch origin; git reset --hard origin/master; sleep 5m; done"
+          - "while true; do git fetch origin; git reset --hard origin/master; sleep\
+            \ 5m; done"
         securityContext:
           runAsUser: 1000
           allowPrivilegeEscalation: false
