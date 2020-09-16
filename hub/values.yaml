@@ -35,6 +35,8 @@ jupyterhub:
       hub.jupyter.org/pool-name: user-alpha-pool
 
   auth:
+    state:
+      enabled: True
     admin:
       users:
         - yuvipanda@gmail.com
