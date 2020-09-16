@@ -48,14 +48,14 @@ jupyterhub:
     chp:
       resources:
         requests:
-          cpu: 0.2
+          cpu: 0.1
           memory: 128Mi
         limits:
           memory: 512Mi
     traefik:
       resources:
         requests:
-          cpu: 0.3
+          cpu: 0.1
           memory: 256Mi
         limits:
           memory: 512Mi
@@ -123,7 +123,7 @@ jupyterhub:
         subPath: "extra-assets"
     resources:
       requests:
-        cpu: 0.5
+        cpu: 0.3
         memory: 512Mi
       limits:
         memory: 2Gi
