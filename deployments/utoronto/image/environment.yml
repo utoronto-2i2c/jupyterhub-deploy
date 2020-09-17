@@ -22,6 +22,10 @@ dependencies:
   - nltk
   - spacy
   - geopandas
+  # From https://github.com/utoronto-2i2c/jupyterhub-deploy/issues/29
+  - astroquery
+  - astropy
+  - galpy
 
   - pip
 
