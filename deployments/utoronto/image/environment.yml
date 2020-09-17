@@ -8,6 +8,21 @@ dependencies:
   - python=3.8.*
   - nodejs=14.8.*
 
+  - numpy
+  - scipy
+  - matplotlib
+  - pandas
+  - seaborn
+  - ipywidgets
+  - sympy
+  - networkx
+  - scikit-learn
+  - beautifulsoup4
+  - statsmodels
+  - nltk
+  - spacy
+  - geopandas
+
   - pip
 
   - pip:
@@ -26,21 +41,6 @@ dependencies:
     - jupyter-server-proxy==1.5.0
     - jupyter-rsession-proxy==1.2
     - jupyter-tree-download==1.0.1
-
-    - numpy
-    - scipy
-    - matplotlib
-    - pandas
-    - seaborn
-    - ipywidgets
-    - sympy
-    - networkx
-    - scikit-learn
-    - beautifulsoup4
-    - statsmodels
-    - nltk
-    - spacy
-    - geopandas
 
     - datascience
     - geojson
