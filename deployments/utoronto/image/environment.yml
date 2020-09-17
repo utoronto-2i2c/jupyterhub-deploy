@@ -13,7 +13,6 @@ dependencies:
   - matplotlib
   - pandas
   - seaborn
-  - ipywidgets
   - sympy
   - networkx
   - scikit-learn
@@ -45,6 +44,7 @@ dependencies:
     - jupyter-server-proxy==1.5.0
     - jupyter-rsession-proxy==1.2
     - jupyter-tree-download==1.0.1
+    - ipywidgets==7.5.1
 
     - datascience
     - geojson
