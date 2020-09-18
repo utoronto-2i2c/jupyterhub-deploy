@@ -11,3 +11,4 @@ jupyterhub:
     https:
       hosts:
       - utoronto.2i2c.cloud
+      - jupyter.utoronto.ca
