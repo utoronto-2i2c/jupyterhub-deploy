@@ -19,7 +19,8 @@ packages = c(
     "nycflights13", "1.0.1",
     "tinytex", "0.25",
     "spdep", "1.1-5",
-    "shiny", "1.5.0"
+    "shiny", "1.5.0",
+    "rstan", "2.21.2"
 
 )
 for (i in seq(1, length(packages), 2)) {
