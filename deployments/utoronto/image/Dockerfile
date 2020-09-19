@@ -41,13 +41,17 @@ RUN echo "${LC_ALL} UTF-8" > /etc/locale.gen && \
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
 RUN echo "deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/" > /etc/apt/sources.list.d/cran.list
 
-# Install desktop packages
+# Install R packages
+# Our pre-built R packages from rspm are built against system libs in focal
+# rstan takes forever to compile from source, and needs libnodejs
+# So we install older (10.x) nodejs from apt rather than newer from conda
 RUN apt-get update -qq --yes > /dev/null && \
     apt-get install --yes -qq \
     r-base \
     r-base-dev \
     r-recommended \
-    r-cran-littler
+    r-cran-littler \
+    nodejs
 
 # Install desktop packages
 RUN apt-get update -qq --yes > /dev/null && \
@@ -125,6 +129,9 @@ COPY environment.yml /tmp/
 
 RUN conda env update -p ${CONDA_DIR} -f /tmp/environment.yml
 
+COPY install-jupyter-extensions.bash /tmp/install-jupyter-extensions.bash
+RUN /tmp/install-jupyter-extensions.bash
+
 # Set CRAN mirror to rspm before we install anything
 COPY Rprofile.site /usr/lib/R/etc/Rprofile.site
 # RStudio needs its own config
@@ -138,9 +145,6 @@ RUN r -e "install.packages('IRkernel', version='1.1.1')" && \
 COPY install.R /tmp/install.R
 RUN /tmp/install.R && \
  	rm -rf /tmp/downloaded_packages/ /tmp/*.rds
-
-COPY install-jupyter-extensions.bash /tmp/install-jupyter-extensions.bash
-RUN /tmp/install-jupyter-extensions.bash
 
 # Set bash as shell in terminado.
 ADD jupyter_notebook_config.py  ${CONDA_PREFIX}/etc/jupyter/
