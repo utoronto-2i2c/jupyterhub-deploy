@@ -6,7 +6,7 @@ install.packages("devtools")
 # Install a bunch of R packages
 # This doesn't do any dependency resolution or anything,
 # so refer to `installed.packages()` for authoritative list
-packages <- c(
+cran_packages <- c(
   "tidyverse", "1.3.0",
   "learnr", "0.10.1",
   "knitr", "1.29",
@@ -21,10 +21,28 @@ packages <- c(
   "spdep", "1.1-5",
   "shiny", "1.5.0",
   "rstan", "2.21.2",
+  # https://github.com/utoronto-2i2c/jupyterhub-deploy/issues/31
+  "ggforce", "0.3.2",
+  "ggthemes", "4.2.0"
 )
-for (i in seq(1, length(packages), 2)) {
+
+github_packages <- c(
+  # https://github.com/utoronto-2i2c/jupyterhub-deploy/issues/31
+  "cutterkom/generativeart", "56ce6beed0433748b4372bfffba0e1c9f2740f9b",
+  "djnavarro/flametree", "0999530f758d074c214c068726e68786bb4698f6"
+)
+
+for (i in seq(1, length(cran_packages), 2)) {
   devtools::install_version(
-    packages[i],
-    version = packages[i + 1]
+    cran_packages[i],
+    version = cran_packages[i + 1]
+  )
+}
+
+
+for (i in seq(1, length(github_packages), 2)) {
+  devtools::install_github(
+    github_packages[i],
+    ref = github_packages[i + 1]
   )
 }
