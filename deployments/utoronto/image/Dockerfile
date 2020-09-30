@@ -51,7 +51,8 @@ RUN apt-get update -qq --yes > /dev/null && \
     r-base-dev \
     r-recommended \
     r-cran-littler \
-    nodejs
+    nodejs \
+    npm
 
 # Install desktop packages
 RUN apt-get update -qq --yes > /dev/null && \

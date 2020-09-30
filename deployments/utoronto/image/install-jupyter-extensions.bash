@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
 jupyter labextension install --debug \
     @jupyter-widgets/jupyterlab-manager@2 \
