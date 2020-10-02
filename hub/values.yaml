@@ -181,5 +181,4 @@ jupyterhub:
     podPriority:
       enabled: true
     userPlaceholder:
-      enabled: false
-      replicas: 100
+      enabled: true
