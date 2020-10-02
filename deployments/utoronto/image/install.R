@@ -23,7 +23,9 @@ cran_packages <- c(
   "rstan", "2.21.2",
   # https://github.com/utoronto-2i2c/jupyterhub-deploy/issues/31
   "ggforce", "0.3.2",
-  "ggthemes", "4.2.0"
+  "ggthemes", "4.2.0",
+  # https://github.com/utoronto-2i2c/jupyterhub-deploy/issues/34
+  "brms", "2.13.5"
 )
 
 github_packages <- c(

@@ -109,13 +109,15 @@ RUN curl --silent --location --fail ${RSTUDIO_URL} > /tmp/rstudio.deb && \
 
 # Needed by many R libraries
 # Picked up from https://github.com/rocker-org/rocker/blob/9dc3e458d4e92a8f41ccd75687cd7e316e657cc0/r-rspm/focal/Dockerfile
+# libglpk40 for igraph
 RUN apt-get update && \
-	apt-get install -y --no-install-recommends \
-                   libgdal26 \
-                   libgeos-3.8.0 \
-                   libproj15 \
-                   libudunits2-0 \
-                   libxml2 > /dev/null
+    apt-get install -y --no-install-recommends \
+        libgdal26 \
+        libgeos-3.8.0 \
+        libproj15 \
+        libudunits2-0 \
+        libxml2 \
+        libglpk40 > /dev/null
 # R_LIBS_USER is set by default in /etc/R/Renviron, which RStudio loads.
 # We uncomment the default, and set what we wanna - so it picks up
 # the packages we install. Without this, RStudio doesn't see the packages
