@@ -68,11 +68,13 @@ RUN apt-get update -qq --yes > /dev/null && \
         xubuntu-icon-theme > /dev/null
 
 # for nbconvert & notebook-to-pdf
+# See https://github.com/utoronto-2i2c/jupyterhub-deploy/issues/35 as well
 RUN apt-get update -qq --yes && \
     apt-get install --yes -qq \
         pandoc \
         texlive-xetex \
         texlive-fonts-recommended \
+        texlive-science \
         libx11-xcb1 \
         libxtst6 \
         libxrandr2 \
