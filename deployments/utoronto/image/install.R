@@ -43,6 +43,10 @@ for (i in seq(1, length(cran_packages), 2)) {
   )
 }
 
+# Fix until is released
+# Error: (converted from warning) package ‘magrittr’ was built under R version 4.0.3
+
+Sys.setenv("R_REMOTES_NO_ERRORS_FROM_WARNINGS"="true")
 
 for (i in seq(1, length(github_packages), 2)) {
   devtools::install_github(
