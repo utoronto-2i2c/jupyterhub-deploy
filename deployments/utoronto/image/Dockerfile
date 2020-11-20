@@ -75,6 +75,8 @@ RUN apt-get update -qq --yes && \
         texlive-xetex \
         texlive-fonts-recommended \
         texlive-science \
+        dvipng \
+        ghostscript \
         cm-super \
         libx11-xcb1 \
         libxtst6 \
