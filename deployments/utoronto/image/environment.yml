@@ -49,3 +49,7 @@ dependencies:
     - geojson
     - folium
     - geopy
+
+    # nbextensions
+    - jupyterthemes==0.20.0
+    - qgrid==1.3.1
