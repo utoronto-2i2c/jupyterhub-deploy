@@ -6,6 +6,7 @@ ENV LANGUAGE en_US.UTF-8
 ENV DEBIAN_FRONTEND=noninteractive
 ENV NB_USER jovyan
 ENV NB_UID 1000
+ENV SHELL /bin/bash
 
 ENV CONDA_DIR /opt/conda
 ENV R_LIBS_USER /opt/r
@@ -156,7 +157,5 @@ COPY install.R /tmp/install.R
 RUN /tmp/install.R && \
  	rm -rf /tmp/downloaded_packages/ /tmp/*.rds
 
-# Set bash as shell in terminado.
-ADD jupyter_notebook_config.py  ${CONDA_PREFIX}/etc/jupyter/
 # Disable history.
 ADD ipython_config.py ${CONDA_PREFIX}/etc/ipython/
