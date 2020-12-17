@@ -35,3 +35,8 @@ the ssh version of the repository URL. For example, instead of using something l
 `https://github.com/utoronto-2i2c/jupyterhub-deploy` for the repo, you should use
 `git@github.com:utoronto-2i2c/jupyterhub-deploy.git`. You can also get the ssh URL by
 clicking the green 'clone' button in your GitHub repository's page.
+
+Note: *Everyone* on the University of Toronto JupyterHub can use nbgitpuller to clone
+your private repo if you do this. They won't be able to see that this repo exists,
+but if they get their hands on your nbgitpuller link they can fetch that too. More
+fine-grained permissions coming soon.
