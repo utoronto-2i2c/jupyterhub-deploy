@@ -31,6 +31,11 @@ etcJupyter:
       # 1h, same as culler.
       shutdown_no_activity_timeout: 3600
 
+etcSSHConfig:
+  01-github-ssh-deploy.conf: |
+    Host github.com
+      IdentityFile /etc/ssh/ssh_config.d/01-github-ssh-deploy-key
+
 nfsPVC:
   enabled: true
   # If you want a PVC with NFS that can be used to mount home directories
@@ -67,9 +72,16 @@ jupyterhub:
         - name: etc-jupyter
           configMap:
             name: user-etc-jupyter
+        - name: etc-ssh-config-d
+          configMap:
+            name: user-etc-ssh-config-d
       extraVolumeMounts:
         - name: etc-jupyter
           mountPath: /etc/jupyter
+          readOnly: true
+        - name: etc-ssh-config-d
+          mountPath: /etc/ssh/ssh_config.d
+          readOnly: true
 
   auth:
     state:
