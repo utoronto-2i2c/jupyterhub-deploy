@@ -12,8 +12,7 @@ as well.
 
 Public repositories are still preferred, but if you want to distribute a private repository
 to your students, you can do so by adding [installing this GitHub app](https://github.com/apps/utoronto-jupyterhub-private-cloner)
-in your private repository.a [deploy key](https://docs.github.com/en/free-pro-team@latest/developers/overview/managing-deploy-keys#deploy-keys)
-to your private repository.
+in your private repository.
 
 1. Go to the [University of Toronto JupyterHub Private Repo Access](https://github.com/apps/utoronto-jupyterhub-private-cloner)
 
