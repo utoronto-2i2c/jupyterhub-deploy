@@ -9,3 +9,6 @@ jupyter labextension install --debug \
 
 # Install jupyter-contrib-nbextensions
 jupyter contrib nbextension install --sys-prefix --symlink
+
+# Explicitly enable qgrid nbextension
+jupyter nbextension enable qgrid --py --sys-prefix
