@@ -25,10 +25,17 @@ in your private repository.
 4. Select 'Only select repositories', and below that select the private repositories you want
    to distribute to this JupyterHub.
    
-5. Click the 'Install' button.
+5. Click the 'Install' button. The University of Toronto JupyterHub now has access to this repo.
+   You can revoke this anytime by coming back to this page, and removing the repo from the list of
+   allowed repos. You can also totally uninstall the GitHub app. 
 
-That's it! You're all set. You can now make nbgitpuller links at [nbgitpuller.link](http://nbgitpuller.link)
-as before, and it'll work for everyone authenticated to jupyter.utoronto.ca.
+6. You can now make a link for your repo at [nbgitpuller.link](http://nbgitpuller.link). If you had
+   just created your repo, you might have to specify `main` instead of `master` for the branch
+   name, since [GitHub changed the name of the default branch](https://github.com/github/renaming)
+   recently.
+   
+That's it! You're all set. You can distribute these links to your students, and they'll be
+able to access your materials on `jupyter.utoronto.ca` after authenticating.
 
 Note: *Everyone* on the University of Toronto JupyterHub can use nbgitpuller to clone
 your private repo if you do this. They won't be able to see that this repo exists,
