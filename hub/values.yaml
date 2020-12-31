@@ -108,7 +108,7 @@ jupyterhub:
 
   auth:
     state:
-      enabled: True
+      enabled: true
     admin:
       users:
         - yuvipanda@gmail.com
@@ -139,7 +139,7 @@ jupyterhub:
       registry: https://containerregistry2i2cutoronto.azurecr.io
     image:
       name: containerregistry2i2cutoronto.azurecr.io/ut-hub
-      tag: '0.0.1-n145.ha669f5a'
+      tag: '0.0.1-n189.h6fdf8f9'
     readinessProbe:
       enabled: false
     concurrentSpawnLimit: 100
