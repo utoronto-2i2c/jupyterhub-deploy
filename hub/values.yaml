@@ -72,10 +72,11 @@ jupyterhub:
         memory: 32Mi
   debug:
     enabled: false
+  imagePullSecret:
+    create: true
+    enabled: true
+    registry: https://containerregistry2i2cutoronto.azurecr.io
   singleuser:
-    imagePullSecret:
-      enabled: true
-      registry: https://containerregistry2i2cutoronto.azurecr.io
     nodeSelector:
       hub.jupyter.org/pool-name: user-alpha-pool
     storage:
@@ -134,9 +135,6 @@ jupyterhub:
         limits:
           memory: 512Mi
   hub:
-    imagePullSecret:
-      enabled: true
-      registry: https://containerregistry2i2cutoronto.azurecr.io
     image:
       name: containerregistry2i2cutoronto.azurecr.io/ut-hub
       tag: '0.0.1-n189.h6fdf8f9'
