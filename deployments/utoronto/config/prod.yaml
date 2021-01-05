@@ -7,7 +7,11 @@ jupyterhub:
   auth:
     google:
       callbackUrl: "https://utoronto.2i2c.cloud/hub/oauth_callback"
+  scheduling:
+    userPlaceholder:
+      replicas: 100
   proxy:
     https:
       hosts:
       - utoronto.2i2c.cloud
+      - jupyter.utoronto.ca

@@ -1,0 +1,18 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: user-etc-ssh-config-d
+  labels:
+    app: jupyterhub
+    component: etc-ssh
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+data:
+  {{- range $name, $content := .Values.etcSSHConfig }}
+  {{- if eq (typeOf $content) "string" }}
+  {{ $name }}: |
+    {{- $content | nindent 4 }}
+  {{- else }}
+  {{ $name }}: {{ $content | toJson | quote }}
+  {{- end }}
+  {{- end }}

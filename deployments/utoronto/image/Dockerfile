@@ -6,6 +6,7 @@ ENV LANGUAGE en_US.UTF-8
 ENV DEBIAN_FRONTEND=noninteractive
 ENV NB_USER jovyan
 ENV NB_UID 1000
+ENV SHELL /bin/bash
 
 ENV CONDA_DIR /opt/conda
 ENV R_LIBS_USER /opt/r
@@ -41,13 +42,18 @@ RUN echo "${LC_ALL} UTF-8" > /etc/locale.gen && \
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
 RUN echo "deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/" > /etc/apt/sources.list.d/cran.list
 
-# Install desktop packages
+# Install R packages
+# Our pre-built R packages from rspm are built against system libs in focal
+# rstan takes forever to compile from source, and needs libnodejs
+# So we install older (10.x) nodejs from apt rather than newer from conda
 RUN apt-get update -qq --yes > /dev/null && \
     apt-get install --yes -qq \
     r-base \
     r-base-dev \
     r-recommended \
-    r-cran-littler
+    r-cran-littler \
+    nodejs \
+    npm
 
 # Install desktop packages
 RUN apt-get update -qq --yes > /dev/null && \
@@ -63,11 +69,16 @@ RUN apt-get update -qq --yes > /dev/null && \
         xubuntu-icon-theme > /dev/null
 
 # for nbconvert & notebook-to-pdf
+# See https://github.com/utoronto-2i2c/jupyterhub-deploy/issues/35 as well
 RUN apt-get update -qq --yes && \
     apt-get install --yes -qq \
         pandoc \
         texlive-xetex \
         texlive-fonts-recommended \
+        texlive-science \
+        dvipng \
+        ghostscript \
+        cm-super \
         libx11-xcb1 \
         libxtst6 \
         libxrandr2 \
@@ -104,13 +115,17 @@ RUN curl --silent --location --fail ${RSTUDIO_URL} > /tmp/rstudio.deb && \
 
 # Needed by many R libraries
 # Picked up from https://github.com/rocker-org/rocker/blob/9dc3e458d4e92a8f41ccd75687cd7e316e657cc0/r-rspm/focal/Dockerfile
+# libglpk40 for igraph
+# libzmq3-dev for IRKernel
 RUN apt-get update && \
-	apt-get install -y --no-install-recommends \
-                   libgdal26 \
-                   libgeos-3.8.0 \
-                   libproj15 \
-                   libudunits2-0 \
-                   libxml2 > /dev/null
+    apt-get install -y --no-install-recommends \
+        libgdal26 \
+        libgeos-3.8.0 \
+        libproj15 \
+        libudunits2-0 \
+        libxml2 \
+        libzmq3-dev \
+        libglpk40 > /dev/null
 # R_LIBS_USER is set by default in /etc/R/Renviron, which RStudio loads.
 # We uncomment the default, and set what we wanna - so it picks up
 # the packages we install. Without this, RStudio doesn't see the packages
@@ -124,6 +139,9 @@ USER ${NB_USER}
 COPY environment.yml /tmp/
 
 RUN conda env update -p ${CONDA_DIR} -f /tmp/environment.yml
+
+COPY install-jupyter-extensions.bash /tmp/install-jupyter-extensions.bash
+RUN /tmp/install-jupyter-extensions.bash
 
 # Set CRAN mirror to rspm before we install anything
 COPY Rprofile.site /usr/lib/R/etc/Rprofile.site
@@ -139,10 +157,5 @@ COPY install.R /tmp/install.R
 RUN /tmp/install.R && \
  	rm -rf /tmp/downloaded_packages/ /tmp/*.rds
 
-COPY install-jupyter-extensions.bash /tmp/install-jupyter-extensions.bash
-RUN /tmp/install-jupyter-extensions.bash
-
-# Set bash as shell in terminado.
-ADD jupyter_notebook_config.py  ${CONDA_PREFIX}/etc/jupyter/
 # Disable history.
 ADD ipython_config.py ${CONDA_PREFIX}/etc/ipython/

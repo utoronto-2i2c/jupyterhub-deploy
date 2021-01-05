@@ -1,6 +1,51 @@
 etcJupyter:
   # Options for Jupyter Notebook itself, set for each user
-  jupyter_notebook_config.json: {}
+  jupyter_notebook_config.json:
+    # if a user leaves a notebook with a running kernel,
+    # the effective idle timeout will typically be CULL_TIMEOUT + CULL_KERNEL_TIMEOUT
+    # as culling the kernel will register activity,
+    # resetting the no_activity timer for the server as a whole
+    MappingKernelManager:
+      # shutdown kernels after no activity
+      cull_idle_timeout: 3600
+      # check for idle kernels this often
+      cull_interval: 300
+      # a kernel with open connections but no activity still counts as idle
+      # this is what allows us to shutdown servers
+      # when people leave a notebook open and wander off
+      cull_connected: true
+    NotebookNotary:
+      # Use memory for notebook notary file to workaround corrupted files on nfs
+      # https://www.sqlite.org/inmemorydb.html
+      # https://github.com/jupyter/jupyter/issues/174
+      # https://github.com/ipython/ipython/issues/9163
+      db_file: ":memory:"
+    NotebookApp:
+      # Allow scraping metrics from Prometheus server
+      authenticate_prometheus: false
+      # Stop notebook when there's no activity
+      # This adds an additional layer to the idle culler, which is sometimes screwed up
+      # via connected websockets and /metrics calls. I'm not sure if this will actually help,
+      # but we can try and find out! See https://github.com/jupyterhub/jupyterhub/issues/3099
+      # for more example
+      # 1h, same as culler.
+      shutdown_no_activity_timeout: 3600
+
+etcSSHConfig:
+  01-github-ssh-deploy.conf: |
+    Host github.com
+      IdentityFile /etc/ssh/ssh_config.d/01-github-ssh-deploy-key
+    GlobalKnownHostsFile /etc/ssh/ssh_config.d/ssh_known_hosts
+  ssh_known_hosts: |
+    github.com ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==
+
+
+etcGitConfig:
+  gitconfig: |
+    [credential "https://github.com"]
+      helper = !git-credential-github-app --app-key-file /etc/github/github-app-private-key.pem --app-id 93515
+      useHttpPath = true
+
 
 nfsPVC:
   enabled: true
@@ -27,16 +72,44 @@ jupyterhub:
         memory: 32Mi
   debug:
     enabled: false
+  imagePullSecret:
+    create: true
+    enabled: true
+    registry: https://containerregistry2i2cutoronto.azurecr.io
   singleuser:
-    imagePullSecret:
-      enabled: true
-      registry: https://containerregistry2i2cutoronto.azurecr.io
     nodeSelector:
       hub.jupyter.org/pool-name: user-alpha-pool
+    storage:
+      extraVolumes:
+        - name: etc-jupyter
+          configMap:
+            name: user-etc-jupyter
+        - name: etc-ssh-config-d
+          configMap:
+            name: user-etc-ssh-config-d
+        - name: etc-gitconfig
+          secret:
+            secretName: user-etc-gitconfig
+      extraVolumeMounts:
+        - name: etc-jupyter
+          mountPath: /etc/jupyter
+          readOnly: true
+        - name: etc-ssh-config-d
+          mountPath: /etc/ssh/ssh_config.d
+          readOnly: true
+        - name: etc-gitconfig
+          mountPath: /etc/gitconfig
+          subPath: gitconfig
+          readOnly: true
+        - name: etc-gitconfig
+          mountPath: /etc/github/github-app-private-key.pem
+          subPath: github-app-private-key.pem
+          readOnly: true
+
 
   auth:
     state:
-      enabled: True
+      enabled: true
     admin:
       users:
         - yuvipanda@gmail.com
@@ -62,12 +135,9 @@ jupyterhub:
         limits:
           memory: 512Mi
   hub:
-    imagePullSecret:
-      enabled: true
-      registry: https://containerregistry2i2cutoronto.azurecr.io
     image:
       name: containerregistry2i2cutoronto.azurecr.io/ut-hub
-      tag: '0.0.1-n145.ha669f5a'
+      tag: '0.0.1-n189.h6fdf8f9'
     readinessProbe:
       enabled: false
     concurrentSpawnLimit: 100
@@ -181,5 +251,4 @@ jupyterhub:
     podPriority:
       enabled: true
     userPlaceholder:
-      enabled: false
-      replicas: 100
+      enabled: true

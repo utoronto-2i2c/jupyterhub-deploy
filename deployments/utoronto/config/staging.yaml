@@ -6,6 +6,9 @@ jupyterhub:
     https:
       hosts:
       - staging.utoronto.2i2c.cloud
+  scheduling:
+    userPlaceholder:
+      replicas: 5
 
   prePuller:
     continuous:
