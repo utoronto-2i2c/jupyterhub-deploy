@@ -100,12 +100,9 @@ RUN apt-get update -qq --yes && \
         imagemagick \
         libmagick++-dev \
         libgmp3-dev \
-        libicu-dev \
-        libssl-dev \
         libglpk-dev \
         libfreetype6-dev \
         libgit2-dev \
-        git \
         > /dev/null
 
 WORKDIR /home/jovyan
