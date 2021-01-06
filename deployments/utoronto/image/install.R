@@ -74,7 +74,7 @@ cran_packages <- c(
   "tokenizers", "0.2.1",
   "urltools", "1.7.3",
   "xaringan", "0.19",
-  "XML", "3.99-0.3",
+  "XML", "3.99-0.3"
 )
 
 github_packages <- c(
