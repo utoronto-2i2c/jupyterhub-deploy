@@ -93,7 +93,6 @@ resource "azurerm_kubernetes_cluster_node_pool" "user_pool" {
   name                  = "user"
   kubernetes_cluster_id = azurerm_kubernetes_cluster.jupyterhub.id
   vm_size               = var.user_vm_size
-  node_count            = 1
   enable_auto_scaling   = true
   os_disk_size_gb       = 200
   node_taints           = ["hub.jupyter.org_dedicated=user:NoSchedule"]
@@ -208,7 +207,7 @@ resource "azurerm_managed_disk" "nfs_data_disk_1" {
   resource_group_name  = azurerm_resource_group.jupyterhub.name
   storage_account_type = "Premium_LRS"
   create_option        = "Empty"
-  disk_size_gb         = "200"
+  disk_size_gb         = "1024"
 
   lifecycle {
     # Terraform plz never destroy data thx
