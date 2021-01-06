@@ -91,6 +91,23 @@ RUN apt-get update -qq --yes && \
         libxss1 \
         > /dev/null
 
+# for kableExtra & partitions & prettydoc & RSelenium & scholar & showtext & stopwords
+# See https://github.com/utoronto-2i2c/jupyterhub-deploy/issues/25
+RUN apt-get update -qq --yes && \
+    apt-get install --yes -qq \
+        libcurl4-openssl-dev \
+        libxml2-dev \
+        imagemagick \
+        libmagick++-dev \
+        libgmp3-dev \
+        libicu-dev \
+        libssl-dev \
+        libglpk-dev \
+        libfreetype6-dev \
+        libgit2-dev \
+        git \
+        > /dev/null
+
 WORKDIR /home/jovyan
 
 COPY install-miniforge.bash /tmp/install-miniforge.bash
