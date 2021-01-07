@@ -93,7 +93,6 @@ resource "azurerm_kubernetes_cluster_node_pool" "user_pool" {
   name                  = "user"
   kubernetes_cluster_id = azurerm_kubernetes_cluster.jupyterhub.id
   vm_size               = var.user_vm_size
-  node_count            = 1
   enable_auto_scaling   = true
   os_disk_size_gb       = 200
   node_taints           = ["hub.jupyter.org_dedicated=user:NoSchedule"]
@@ -165,6 +164,19 @@ resource "azurerm_network_security_group" "nfs_vm" {
     destination_port_range     = "2049"
     destination_address_prefix = azurerm_network_interface.nfs_vm.private_ip_address
   }
+  #
+  # Prometheus from internal network
+  security_rule {
+    access                     = "Allow"
+    direction                  = "Inbound"
+    name                       = "prometheus"
+    priority                   = 102
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    source_address_prefix      = "*"
+    destination_port_range     = "9100"
+    destination_address_prefix = azurerm_network_interface.nfs_vm.private_ip_address
+  }
 }
 
 resource "azurerm_network_interface_security_group_association" "main" {
@@ -208,7 +220,7 @@ resource "azurerm_managed_disk" "nfs_data_disk_1" {
   resource_group_name  = azurerm_resource_group.jupyterhub.name
   storage_account_type = "Premium_LRS"
   create_option        = "Empty"
-  disk_size_gb         = "200"
+  disk_size_gb         = "1024"
 
   lifecycle {
     # Terraform plz never destroy data thx
