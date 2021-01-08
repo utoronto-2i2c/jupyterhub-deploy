@@ -74,7 +74,11 @@ cran_packages <- c(
   "tokenizers", "0.2.1",
   "urltools", "1.7.3",
   "xaringan", "0.19",
-  "XML", "3.99-0.3"
+  "XML", "3.99-0.3",
+  # For demoing 'learnr' shiny apps
+  # https://github.com/rstudio/learnr/tree/master/inst/tutorials
+  "Lahman", "8.0-0",
+  "dygraphs", "1.1.1.6"
 )
 
 github_packages <- c(
