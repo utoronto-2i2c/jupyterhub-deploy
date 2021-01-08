@@ -5,6 +5,7 @@ jupyter labextension install --debug \
     @jupyter-widgets/jupyterlab-manager@2 \
     @jupyterlab/server-proxy@2.1.1 \
     jupyterlab-jupytext@1.2.1 \
+    jupyter-matplotlib@0.7.4 \
     qgrid2@1.1.3
 
 # Install jupyter-contrib-nbextensions
