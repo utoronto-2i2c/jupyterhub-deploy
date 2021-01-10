@@ -2,9 +2,57 @@ import asyncio
 import argparse
 import uuid
 import time
+from contextlib import asynccontextmanager
 
 from jupyterhub_client.api import JupyterHubAPI, JupyterAPI
 from jupyterhub_client.utils import parse_notebook_cells, tangle_cells
+
+
+@asynccontextmanager
+async def use_user_server(hub, username):
+    """
+    Start a server for username on hub, cleaning up when done
+    """
+    try:
+        await hub.ensure_user(username, create_user=True)
+        print(f'{username}: created user')
+        try:
+            await hub.ensure_server(username, create_user=False)
+            print(f'{username}: created server')
+            yield
+        finally:
+            # Even if hub.create_server(username) doesn't finish, hub may still create the
+            # user's server if the request got to it. Let's make sure there's no server running for the user.
+            # Otherwise, users' single-servers will continue to run and hub will return
+            # "SingleUserNotebookApp mixins:520] Error notifying Hub of activity"
+            await hub.delete_server(username)
+            while True:
+                user = await hub.get_user(username)
+                if not user['servers']:
+                    break
+                await asyncio.sleep(1)
+            print(f'{username}: deleted server')
+    finally:
+        await hub.delete_user(username)
+        print(f'{username}: deleted user')
+
+@asynccontextmanager
+async def use_kernel(hub, username):
+    """
+    Start a kernel for username on hub, cleaning up when done.
+
+    Assumes the server has already been started.
+    """
+    user_server = JupyterAPI(hub.hub_url / 'user' / username, hub.api_token)
+    async with user_server:
+        kernel_id, kernel = await user_server.ensure_kernel(kernel_spec=None)
+        print(f'{username}: started kernel')
+        try:
+            async with kernel:
+                yield kernel
+        finally:
+            await user_server.delete_kernel(kernel_id)
+            print(f'{username}: delete kernel')
 
 async def run_user_notebook(hub_url, cells, token=None):
     server_started = False
@@ -12,58 +60,19 @@ async def run_user_notebook(hub_url, cells, token=None):
 
     hub = JupyterHubAPI(hub_url=hub_url, api_token=token)
 
-    try:
-        async with hub:
-            token = await hub.identify_token(hub.api_token)
-            service_name = token['name']
-            username = f'service-{service_name}-{uuid.uuid4()}'
-            user = await hub.ensure_user(username, create_user=True)
-            try:
-                if user['server'] is None:
-                    await hub.create_server(username)
-                    try:
-                        while True:
-                            user = await hub.get_user(username)
-                            if user['server'] and user['pending'] is None:
-                                jupyter = JupyterAPI(hub.hub_url / 'user' / username, hub.api_token)
-                                break
-                            await asyncio.sleep(5)
-                        # Mark servers started successfully
-                        server_started = True
-                        async with jupyter:
-                            kernel_id, kernel = await jupyter.ensure_kernel(kernel_spec=None)
-                            async with kernel:
-                                try:
-                                    for i, (code, expected_result) in enumerate(cells):
-                                        kernel_result = await kernel.send_code(username, code, wait=True)
-                                        if kernel_result != expected_result:
-                                            print(f'Kernel result did not match expected result')
-                                    # Mark notebook executed successfully
-                                    notebook_executed = True
-                                finally:
-                                    print(f"Cleanup: delete kernel of {username}")
-                                    await jupyter.delete_kernel(kernel_id)
-                    finally:
-                        print(f"Cleanup: delete-server of {username}")
-                        await hub.delete_server(username)
-            finally:
-                print(f"Cleanup: make sure no server is being started for user {username}")
-                # Even if hub.create_server(username) doesn't finish, hub may still create the
-                # user's server if the request got to it. Let's make sure there's no server running for the user.
-                # Otherwise, users' single-servers will continue to run and hub will return
-                # "SingleUserNotebookApp mixins:520] Error notifying Hub of activity"
-                resp = await hub.session.delete(hub.api_url / 'users' / username / 'server')
-                while resp.status != 204:
-                    resp = await hub.session.delete(hub.api_url / 'users' / username / 'server')
-                    status = resp.status
-                    await asyncio.sleep(1)
+    async with hub:
+        token = await hub.identify_token(hub.api_token)
+        service_name = token['name']
+        username = f'service-{service_name}-{uuid.uuid4()}'
 
-                print(f"Cleanup: delete user and server {username}")
-                await hub.delete_user(username)
-    except:
-        pass
+        async with use_user_server(hub, username) as user:
+            async with use_kernel(hub, username) as kernel:
+                for i, (code, expected_result) in enumerate(cells):
+                    kernel_result = await kernel.send_code(username, code, wait=True)
+                    if kernel_result != expected_result:
+                        print(f'Kernel result did not match expected result')
 
-    return (server_started, notebook_executed)
+    return True
 
 async def run_stress_test(hub_url, num_users, notebook_path, timeout, token):
     cells = parse_notebook_cells(notebook_path)
@@ -77,16 +86,9 @@ async def run_stress_test(hub_url, num_users, notebook_path, timeout, token):
     full_success = len(_done) * 100 / num_users
     print(f"Full success = {full_success}%")
 
-    servers_successful = 0
     for task in _running:
         task.cancel()
         await task
-        server_started, notebook_executed = task.result()
-        if server_started and not notebook_executed:
-            servers_successful += 1
-
-    server_success = servers_successful * 100 / num_users
-    print(f"Server success = {server_success}%")
 
 def main():
     parser = argparse.ArgumentParser()
