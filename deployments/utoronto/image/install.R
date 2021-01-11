@@ -78,7 +78,9 @@ cran_packages <- c(
   # For demoing 'learnr' shiny apps
   # https://github.com/rstudio/learnr/tree/master/inst/tutorials
   "Lahman", "8.0-0",
-  "dygraphs", "1.1.1.6"
+  "dygraphs", "1.1.1.6",
+  # From https://github.com/utoronto-2i2c/jupyterhub-deploy/issues/65
+  "staplr", "3.1.0"
 )
 
 github_packages <- c(
