@@ -145,6 +145,11 @@ RUN apt-get update && \
         libxml2 \
         libzmq3-dev \
         libglpk40 > /dev/null
+# Needed by staplr R library
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    default-jdk > /dev/null && \
+    R CMD javareconf
 # R_LIBS_USER is set by default in /etc/R/Renviron, which RStudio loads.
 # We uncomment the default, and set what we wanna - so it picks up
 # the packages we install. Without this, RStudio doesn't see the packages
