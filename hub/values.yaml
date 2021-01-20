@@ -114,6 +114,7 @@ jupyterhub:
       users:
         - yuvipanda@gmail.com
         - choldgraf@gmail.com
+        - georgiana.dolocan@gmail.com
     type: azuread
     google:
       loginService: "University of Toronto ID"
