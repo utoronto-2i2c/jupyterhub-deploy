@@ -106,7 +106,23 @@ jupyterhub:
           mountPath: /etc/github/github-app-private-key.pem
           subPath: github-app-private-key.pem
           readOnly: true
-
+  proxy:
+    nodeSelector:
+      hub.jupyter.org/pool-name: core-pool
+    chp:
+      resources:
+        requests:
+          cpu: 0.1
+          memory: 128Mi
+        limits:
+          memory: 512Mi
+    traefik:
+      resources:
+        requests:
+          cpu: 0.1
+          memory: 256Mi
+        limits:
+          memory: 512Mi
   hub:
     image:
       name: containerregistry2i2cutoronto.azurecr.io/ut-hub
@@ -128,23 +144,6 @@ jupyterhub:
         authenticator_class: azuread
       GoogleOAuthenticator:
         login_service: "University of Toronto ID"
-  proxy:
-    nodeSelector:
-      hub.jupyter.org/pool-name: core-pool
-    chp:
-      resources:
-        requests:
-          cpu: 0.1
-          memory: 128Mi
-        limits:
-          memory: 512Mi
-    traefik:
-      resources:
-        requests:
-          cpu: 0.1
-          memory: 256Mi
-        limits:
-          memory: 512Mi
     db:
       pvc:
         # Default seems too slow for our database, causes very bad response times

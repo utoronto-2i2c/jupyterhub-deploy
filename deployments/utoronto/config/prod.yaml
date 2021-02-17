@@ -4,7 +4,6 @@ jupyterhub:
       pvc:
         # This gonna store logs
         storage: 10Gi
-        storageClassName: managed-premium
     config:
       GoogleOAuthenticator:
         oauth_callback_url: "https://utoronto.2i2c.cloud/hub/oauth_callback"
