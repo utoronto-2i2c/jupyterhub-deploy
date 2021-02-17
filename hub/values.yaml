@@ -54,6 +54,11 @@ nfsPVC:
     serverIP: jupyterhub-2i2c-nfs-vm
     shareName: /export/jupyterhub-2i2c-nfs-data-disk-1
 
+imagePullSecret:
+    create: true
+    enabled: true
+    registry: https://containerregistry2i2cutoronto.azurecr.io
+
 jupyterhub:
   cull:
     # Cull only every 30min, not 10
@@ -72,10 +77,6 @@ jupyterhub:
         memory: 32Mi
   debug:
     enabled: false
-  imagePullSecret:
-    create: true
-    enabled: true
-    registry: https://containerregistry2i2cutoronto.azurecr.io
   singleuser:
     nodeSelector:
       hub.jupyter.org/pool-name: user-alpha-pool
@@ -106,18 +107,27 @@ jupyterhub:
           subPath: github-app-private-key.pem
           readOnly: true
 
-
-  auth:
-    state:
-      enabled: true
-    admin:
-      users:
-        - yuvipanda@gmail.com
-        - choldgraf@gmail.com
-        - georgiana.dolocan@gmail.com
-    type: azuread
-    google:
-      loginService: "University of Toronto ID"
+  hub:
+    image:
+      name: containerregistry2i2cutoronto.azurecr.io/ut-hub
+      tag: '0.0.1-n189.h6fdf8f9'
+    readinessProbe:
+      enabled: false
+    concurrentSpawnLimit: 100
+    consecutiveFailureLimit: 20
+    nodeSelector:
+      hub.jupyter.org/pool-name: core-pool
+    config:
+      Authenticator:
+        enable_auth_state: true
+        admin_users:
+            - yuvipanda@gmail.com
+            - choldgraf@gmail.com
+            - georgiana.dolocan@gmail.com
+      JupyterHub:
+        authenticator_class: azuread
+      GoogleOAuthenticator:
+          login_service: "University of Toronto ID"
   proxy:
     nodeSelector:
       hub.jupyter.org/pool-name: core-pool
@@ -135,16 +145,6 @@ jupyterhub:
           memory: 256Mi
         limits:
           memory: 512Mi
-  hub:
-    image:
-      name: containerregistry2i2cutoronto.azurecr.io/ut-hub
-      tag: '0.0.1-n189.h6fdf8f9'
-    readinessProbe:
-      enabled: false
-    concurrentSpawnLimit: 100
-    consecutiveFailureLimit: 20
-    nodeSelector:
-      hub.jupyter.org/pool-name: core-pool
     db:
       pvc:
         # Default seems too slow for our database, causes very bad response times
