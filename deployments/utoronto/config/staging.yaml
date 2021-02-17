@@ -1,5 +1,9 @@
 jupyterhub:
   hub:
+    db:
+      pvc:
+        storage: 1Gi
+        storageClassName: managed-premium
     config:
       GoogleOAuthenticator:
         oauth_callback_url: "https://staging.utoronto.2i2c.cloud/hub/oauth_callback"
