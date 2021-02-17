@@ -1,9 +1,10 @@
 jupyterhub:
-  auth:
-    admin:
-      users:
-      - 7c76d04b-2a80-4db1-b985-a2d2fa2f708c
-      - 09056164-42f5-4113-9fd7-dd852e63ff1d
+  hub:
+    config:
+      Authenticator:
+        admin_users:
+          - 7c76d04b-2a80-4db1-b985-a2d2fa2f708c
+          - 09056164-42f5-4113-9fd7-dd852e63ff1d
   proxy:
     https:
       enabled: true
