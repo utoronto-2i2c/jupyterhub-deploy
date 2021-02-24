@@ -54,12 +54,12 @@ nfsPVC:
     serverIP: jupyterhub-2i2c-nfs-vm
     shareName: /export/jupyterhub-2i2c-nfs-data-disk-1
 
-imagePullSecret:
-    create: true
-    enabled: true
-    registry: https://containerregistry2i2cutoronto.azurecr.io
 
 jupyterhub:
+  imagePullSecret:
+      create: true
+      enabled: true
+      registry: https://containerregistry2i2cutoronto.azurecr.io
   cull:
     # Cull only every 30min, not 10
     every: 1800
@@ -135,7 +135,7 @@ jupyterhub:
       hub.jupyter.org/pool-name: core-pool
     config:
       Authenticator:
-        enable_auth_state: true
+        enable_auth_state: false
         admin_users:
           - yuvipanda@gmail.com
           - choldgraf@gmail.com
