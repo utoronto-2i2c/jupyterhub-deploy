@@ -91,7 +91,7 @@ RUN apt-get update -qq --yes && \
         libxss1 \
         > /dev/null
 
-# for kableExtra & partitions & prettydoc & RSelenium & scholar & showtext & stopwords
+# for kableExtra & partitions & prettydoc & RSelenium & scholar & showtext & stopwords & copula
 # See https://github.com/utoronto-2i2c/jupyterhub-deploy/issues/25
 RUN apt-get update -qq --yes && \
     apt-get install --yes -qq \
@@ -103,6 +103,7 @@ RUN apt-get update -qq --yes && \
         libglpk-dev \
         libfreetype6-dev \
         libgit2-dev \
+        libgsl0-dev \
         > /dev/null
 
 WORKDIR /home/jovyan
