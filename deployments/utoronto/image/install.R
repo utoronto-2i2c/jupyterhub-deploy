@@ -80,7 +80,8 @@ cran_packages <- c(
   "Lahman", "8.0-0",
   "dygraphs", "1.1.1.6",
   # From https://github.com/utoronto-2i2c/jupyterhub-deploy/issues/65
-  "staplr", "3.1.0"
+  "staplr", "3.1.0",
+  "copula", "1.0-1"
 )
 
 github_packages <- c(
