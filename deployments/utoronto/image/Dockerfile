@@ -66,7 +66,9 @@ RUN apt-get update -qq --yes > /dev/null && \
         xfce4-session \
         xfce4-settings \
         xorg \
-        xubuntu-icon-theme > /dev/null
+        xubuntu-icon-theme \
+        openjdk-8-jre \
+        libreoffice > /dev/null
 
 # for nbconvert & notebook-to-pdf
 # See https://github.com/utoronto-2i2c/jupyterhub-deploy/issues/35 as well
