@@ -67,16 +67,8 @@ RUN apt-get update -qq --yes > /dev/null && \
         xfce4-settings \
         xorg \
         xubuntu-icon-theme \
-        openjdk-8-jre > /dev/null
-
-# Install OpenOffice for desktop
-RUN wget https://sourceforge.net/projects/openofficeorg.mirror/files/4.1.10/binaries/en-US/Apache_OpenOffice_4.1.10_Linux_x86-64_install-deb_en-US.tar.gz/download
-RUN tar -xvf download
-RUN cd en-US/DEBS && \
-    dpkg -i *.deb
-
-RUN cd en-US/DEBS/desktop-integration && \
-    dpkg -i *.deb
+        openjdk-8-jre \
+        libreoffice > /dev/null
 
 # for nbconvert & notebook-to-pdf
 # See https://github.com/utoronto-2i2c/jupyterhub-deploy/issues/35 as well
