@@ -163,9 +163,9 @@ RUN sed -i -e '/^R_LIBS_USER=/s/^/#/' /etc/R/Renviron && \
 
 USER ${NB_USER}
 
-COPY environment.yml /tmp/
+COPY requirements.txt /tmp/
 
-RUN conda env update -p ${CONDA_DIR} -f /tmp/environment.yml
+RUN python3 -m pip install -r /tmp/requirements.txt
 
 COPY install-jupyter-extensions.bash /tmp/install-jupyter-extensions.bash
 RUN /tmp/install-jupyter-extensions.bash
