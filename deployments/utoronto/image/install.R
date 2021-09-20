@@ -57,7 +57,7 @@ cran_packages <- c(
   "raster", "3.4-13",
   "rasterVis", "0.50.3",
   "RcppArmadillo", "0.10.1.2.0",
-  "rgdal", "1.5-27",
+  "rgdal", "1.5-25",
   "rgeos", "0.5-7",
   "RSelenium", "1.7.7",
   "rtweet", "0.7.0",
