@@ -117,6 +117,16 @@ RUN apt-get update -qq --yes && \
         libgsl0-dev \
         > /dev/null
 
+# See https://github.com/utoronto-2i2c/jupyterhub-deploy/pull/101
+RUN apt-get update -qq --yes && \
+    apt-get install --yes -qq \
+        libudunits2-dev \
+        libgdal-dev \
+        gdal-bin \
+        libgeos-dev \
+        libproj-dev \
+        > /dev/null
+
 WORKDIR /home/jovyan
 
 COPY install-miniforge.bash /tmp/install-miniforge.bash
