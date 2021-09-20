@@ -153,13 +153,19 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     default-jdk > /dev/null && \
     R CMD javareconf
+
+
 # R_LIBS_USER is set by default in /etc/R/Renviron, which RStudio loads.
 # We uncomment the default, and set what we wanna - so it picks up
 # the packages we install. Without this, RStudio doesn't see the packages
 # that R does.
 # Stolen from https://github.com/jupyterhub/repo2docker/blob/6a07a48b2df48168685bb0f993d2a12bd86e23bf/repo2docker/buildpacks/r.py
+# To try fight https://community.rstudio.com/t/timedatectl-had-status-1/72060,
+# which shows up sometimes when trying to install packages that want the TZ
+# timedatectl expects systemd running, which isn't true in our containers
 RUN sed -i -e '/^R_LIBS_USER=/s/^/#/' /etc/R/Renviron && \
-    echo "R_LIBS_USER=${R_LIBS_USER}" >> /etc/R/Renviron
+    echo "R_LIBS_USER=${R_LIBS_USER}" >> /etc/R/Renviron && \
+    echo "TZ=${TZ}" >> /etc/R/Renviron
 
 USER ${NB_USER}
 
