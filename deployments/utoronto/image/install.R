@@ -18,7 +18,6 @@ cran_packages <- c(
   "BHH2", "2016.05.31",
   "nycflights13", "1.0.1",
   "tinytex", "0.25",
-  "spdep", "1.1-5",
   "shiny", "1.5.0",
   "rstan", "2.21.2",
   # https://github.com/utoronto-2i2c/jupyterhub-deploy/issues/31
