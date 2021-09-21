@@ -66,7 +66,7 @@ cran_packages <- c(
   "semver", "0.2.0",
   "servr", "0.23",
   "sets", "1.0-18",
-  "sf", "1.0-2",
+  "sf", "1.0-1",
   "sfsmisc", "1.1-12",
   "showtext", "0.9-4",
   "showtextdb", "3.0",
