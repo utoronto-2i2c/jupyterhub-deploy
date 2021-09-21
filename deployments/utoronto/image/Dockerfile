@@ -150,6 +150,7 @@ RUN curl --silent --location --fail ${SHINY_SERVER_URL} > /tmp/shiny-server.deb 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         libgdal26 \
+        gdal-bin \
         libgeos-3.8.0 \
         libproj15 \
         libudunits2-0 \
