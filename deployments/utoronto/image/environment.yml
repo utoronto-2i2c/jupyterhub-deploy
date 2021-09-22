@@ -7,7 +7,7 @@ dependencies:
   # language runtimes
   - python=3.8.*
 
-  - gdal=3.2.1
+  - gdal=3.0.4
   - numpy
   - scipy
   - matplotlib
