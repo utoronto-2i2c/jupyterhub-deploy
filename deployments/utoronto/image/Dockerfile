@@ -165,7 +165,7 @@ RUN apt-get update && \
 # timedatectl expects systemd running, which isn't true in our containers
 RUN sed -i -e '/^R_LIBS_USER=/s/^/#/' /etc/R/Renviron && \
     echo "R_LIBS_USER=${R_LIBS_USER}" >> /etc/R/Renviron && \
-    echo "TZ=${TZ}" >> /etc/R/Renviron
+    echo "TZ=America/Toronto" >> /etc/R/Renviron
 
 USER ${NB_USER}
 
