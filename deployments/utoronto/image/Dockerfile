@@ -163,6 +163,7 @@ RUN apt-get update && \
 # To try fight https://community.rstudio.com/t/timedatectl-had-status-1/72060/5 ,
 # which shows up sometimes when trying to install packages that want the TZ
 # timedatectl expects systemd running, which isn't true in our containers
+ENV TZ America/Toronto
 RUN sed -i -e '/^R_LIBS_USER=/s/^/#/' /etc/R/Renviron && \
     echo "R_LIBS_USER=${R_LIBS_USER}" >> /etc/R/Renviron && \
     echo "TZ=${TZ}" >> /etc/R/Renviron
