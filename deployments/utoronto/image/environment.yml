@@ -41,8 +41,8 @@ dependencies:
     - git-credential-helpers==0.2
     - notebook==6.1.6
     - jupyterhub==1.3.0
-    - jupyter-server-proxy==1.5.2
-    - jupyter-rsession-proxy==1.2
+    - jupyter-server-proxy==3.1.0
+    - jupyter-rsession-proxy==1.4
     - jupyter-shiny-proxy==1.1
     - jupyter-tree-download==1.0.1
     - ipywidgets==7.6.2
