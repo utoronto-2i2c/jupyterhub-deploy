@@ -173,26 +173,25 @@ RUN sed -i -e '/^R_LIBS_USER=/s/^/#/' /etc/R/Renviron && \
 
 USER ${NB_USER}
 
-COPY environment.yml /tmp/
-
-RUN conda env update -p ${CONDA_DIR} -f /tmp/environment.yml
-
-COPY install-jupyter-extensions.bash /tmp/install-jupyter-extensions.bash
-RUN /tmp/install-jupyter-extensions.bash
-
 # Set CRAN mirror to rspm before we install anything
 COPY Rprofile.site /usr/lib/R/etc/Rprofile.site
 # RStudio needs its own config
 COPY rsession.conf /etc/rstudio/rsession.conf
 
-# Install IRKernel
-RUN r -e "install.packages('IRkernel', version='1.1.1')" && \
-    r -e "IRkernel::installspec(prefix='${CONDA_DIR}')"
-
 # Install R packages, cleanup temp package download location
 COPY install.R /tmp/install.R
 RUN /tmp/install.R && \
  	rm -rf /tmp/downloaded_packages/ /tmp/*.rds
+
+COPY requirements.txt /tmp/
+RUN python3 -m pip install -r /tmp/requirements.txt
+
+COPY install-jupyter-extensions.bash /tmp/install-jupyter-extensions.bash
+RUN /tmp/install-jupyter-extensions.bash
+
+# Install IRKernel
+RUN r -e "install.packages('IRkernel', version='1.1.1')" && \
+    r -e "IRkernel::installspec(prefix='${CONDA_DIR}')"
 
 # Disable history.
 ADD ipython_config.py ${CONDA_PREFIX}/etc/ipython/
