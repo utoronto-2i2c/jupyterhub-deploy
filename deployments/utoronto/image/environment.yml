@@ -30,7 +30,7 @@ dependencies:
   - pip:
     # Infrastructure things
     - jupyterlab==2.*
-    - voila==0.1.23
+    - voila==0.2.3
     - nbgitpuller==0.9.*
     - jupyter-resource-usage==0.5.1
     - nbinteract==0.2.5
