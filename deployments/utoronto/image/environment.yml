@@ -33,7 +33,6 @@ dependencies:
     - voila==0.2.3
     - nbgitpuller==0.9.*
     - jupyter-resource-usage==0.5.1
-    - nbinteract==0.2.5
     - jupytext==1.6.*
     - RISE==5.6.1
     - jupyter_contrib_nbextensions==0.5.1
