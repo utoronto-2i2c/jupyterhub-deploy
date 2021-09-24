@@ -48,14 +48,19 @@ RUN echo "deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/" > /etc
 # rstan takes forever to compile from source, and needs libnodejs
 # We don't want R 4.1 yet - the graphics protocol version it has is incompatible
 # with the version of RStudio we use. So we pin R to 4.0.5
+# littler, r-cran-mgcv, r-cran-survival, r-cran-matrix are specific packages needed
+# for apt to actually install the correct version of R 4.0.5
 ENV R_VERSION=4.0.5-1.2004.0
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
 RUN echo "deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/" > /etc/apt/sources.list.d/cran.list
 RUN apt-get update -qq --yes > /dev/null && \
-    apt-get install --yes -qq \
+    apt-get install --yes  --no-install-recommends \
     r-base=${R_VERSION} \
+    r-base-core=${R_VERSION} \
     r-base-dev=${R_VERSION} \
+    r-recommended=${R_VERSION} \
     r-cran-littler=0.3.11-1.2004.0 \
+    r-cran-mgcv r-cran-rpart r-cran-survival r-cran-matrix=1.3-3-1.2004.0 \
     nodejs \
     npm > /dev/null
 
