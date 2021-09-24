@@ -42,18 +42,27 @@ RUN echo "${LC_ALL} UTF-8" > /etc/locale.gen && \
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
 RUN echo "deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/" > /etc/apt/sources.list.d/cran.list
 
+
 # Install R packages
 # Our pre-built R packages from rspm are built against system libs in focal
 # rstan takes forever to compile from source, and needs libnodejs
-# So we install older (10.x) nodejs from apt rather than newer from conda
+# We don't want R 4.1 yet - the graphics protocol version it has is incompatible
+# with the version of RStudio we use. So we pin R to 4.0.5
+# littler, r-cran-mgcv, r-cran-survival, r-cran-matrix are specific packages needed
+# for apt to actually install the correct version of R 4.0.5
+ENV R_VERSION=4.0.5-1.2004.0
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
+RUN echo "deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/" > /etc/apt/sources.list.d/cran.list
 RUN apt-get update -qq --yes > /dev/null && \
-    apt-get install --yes -qq \
-    r-base \
-    r-base-dev \
-    r-recommended \
-    r-cran-littler \
+    apt-get install --yes  --no-install-recommends \
+    r-base=${R_VERSION} \
+    r-base-core=${R_VERSION} \
+    r-base-dev=${R_VERSION} \
+    r-recommended=${R_VERSION} \
+    r-cran-littler=0.3.11-1.2004.0 \
+    r-cran-mgcv r-cran-rpart r-cran-survival r-cran-matrix=1.3-3-1.2004.0 \
     nodejs \
-    npm
+    npm > /dev/null
 
 # Install desktop packages
 RUN apt-get update -qq --yes > /dev/null && \
@@ -122,10 +131,9 @@ RUN apt-get update -qq --yes && \
         lsb-release \
         libclang-dev  > /dev/null
 
-# Set path where R packages are installed
-# Download and install rstudio manually
-# Newer one has bug that doesn't work with jupyter-rsession-proxy
-ENV RSTUDIO_URL https://download2.rstudio.org/server/bionic/amd64/rstudio-server-1.2.5042-amd64.deb
+# 1.3.959 is latest version that works with jupyter-rsession-proxy
+# See https://github.com/jupyterhub/jupyter-rsession-proxy/issues/93#issuecomment-725874693
+ENV RSTUDIO_URL https://download2.rstudio.org/server/bionic/amd64/rstudio-server-1.3.959-amd64.deb
 RUN curl --silent --location --fail ${RSTUDIO_URL} > /tmp/rstudio.deb && \
     dpkg -i /tmp/rstudio.deb && \
     rm /tmp/rstudio.deb
@@ -163,6 +171,7 @@ RUN apt-get update && \
 # To try fight https://community.rstudio.com/t/timedatectl-had-status-1/72060/5 ,
 # which shows up sometimes when trying to install packages that want the TZ
 # timedatectl expects systemd running, which isn't true in our containers
+ENV TZ America/Toronto
 RUN sed -i -e '/^R_LIBS_USER=/s/^/#/' /etc/R/Renviron && \
     echo "R_LIBS_USER=${R_LIBS_USER}" >> /etc/R/Renviron && \
     echo "TZ=${TZ}" >> /etc/R/Renviron
