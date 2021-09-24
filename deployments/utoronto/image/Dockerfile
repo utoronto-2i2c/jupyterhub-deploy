@@ -143,21 +143,6 @@ RUN curl --silent --location --fail ${SHINY_SERVER_URL} > /tmp/shiny-server.deb 
     dpkg -i /tmp/shiny-server.deb && \
     rm /tmp/shiny-server.deb
 
-# Needed by many R libraries
-# Picked up from https://github.com/rocker-org/rocker/blob/9dc3e458d4e92a8f41ccd75687cd7e316e657cc0/r-rspm/focal/Dockerfile
-# libglpk40 for igraph
-# libzmq3-dev for IRKernel
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-        libgdal26 \
-        libgdal-dev \
-        gdal-bin \
-        libgeos-3.8.0 \
-        libproj15 \
-        libudunits2-0 \
-        libxml2 \
-        libzmq3-dev \
-        libglpk40 > /dev/null
 # Needed by staplr R library
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -183,6 +168,22 @@ USER ${NB_USER}
 COPY environment.yml /tmp/
 
 RUN conda env update -p ${CONDA_DIR} -f /tmp/environment.yml
+
+# Needed by many R libraries
+# Picked up from https://github.com/rocker-org/rocker/blob/9dc3e458d4e92a8f41ccd75687cd7e316e657cc0/r-rspm/focal/Dockerfile
+# libglpk40 for igraph
+# libzmq3-dev for IRKernel
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        libgdal26 \
+        libgdal-dev \
+        gdal-bin \
+        libgeos-3.8.0 \
+        libproj15 \
+        libudunits2-0 \
+        libxml2 \
+        libzmq3-dev \
+        libglpk40 > /dev/null
 
 COPY install-jupyter-extensions.bash /tmp/install-jupyter-extensions.bash
 RUN /tmp/install-jupyter-extensions.bash
