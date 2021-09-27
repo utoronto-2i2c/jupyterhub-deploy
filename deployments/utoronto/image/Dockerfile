@@ -144,6 +144,22 @@ RUN curl --silent --location --fail ${SHINY_SERVER_URL} > /tmp/shiny-server.deb 
     dpkg -i /tmp/shiny-server.deb && \
     rm /tmp/shiny-server.deb
 
+# Needed by many R libraries
+# Picked up from https://github.com/rocker-org/rocker/blob/9dc3e458d4e92a8f41ccd75687cd7e316e657cc0/r-rspm/focal/Dockerfile
+# libglpk40 for igraph
+# libzmq3-dev for IRKernel
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        libgdal26 \
+        libgdal-dev \
+        gdal-bin \
+        libgeos-3.8.0 \
+        libproj15 \
+        libudunits2-0 \
+        libxml2 \
+        libzmq3-dev \
+        libglpk40 > /dev/null
+
 # Needed by staplr R library
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -166,42 +182,26 @@ RUN sed -i -e '/^R_LIBS_USER=/s/^/#/' /etc/R/Renviron && \
 
 USER ${NB_USER}
 
-COPY environment.yml /tmp/
-
-RUN conda env update -p ${CONDA_DIR} -f /tmp/environment.yml
-
-# Needed by many R libraries
-# Picked up from https://github.com/rocker-org/rocker/blob/9dc3e458d4e92a8f41ccd75687cd7e316e657cc0/r-rspm/focal/Dockerfile
-# libglpk40 for igraph
-# libzmq3-dev for IRKernel
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-        libgdal26 \
-        libgdal-dev \
-        gdal-bin \
-        libgeos-3.8.0 \
-        libproj15 \
-        libudunits2-0 \
-        libxml2 \
-        libzmq3-dev \
-        libglpk40 > /dev/null
-
-COPY install-jupyter-extensions.bash /tmp/install-jupyter-extensions.bash
-RUN /tmp/install-jupyter-extensions.bash
-
 # Set CRAN mirror to rspm before we install anything
 COPY Rprofile.site /usr/lib/R/etc/Rprofile.site
 # RStudio needs its own config
 COPY rsession.conf /etc/rstudio/rsession.conf
 
-# Install IRKernel
-RUN r -e "install.packages('IRkernel', version='1.1.1')" && \
-    r -e "IRkernel::installspec(prefix='${CONDA_DIR}')"
-
 # Install R packages, cleanup temp package download location
 COPY install.R /tmp/install.R
 RUN /tmp/install.R && \
- 	rm -rf /tmp/downloaded_packages/ /tmp/*.rds
+	rm -rf /tmp/downloaded_packages/ /tmp/*.rds
+
+COPY environment.yml /tmp/
+
+RUN conda env update -p ${CONDA_DIR} -f /tmp/environment.yml
+
+COPY install-jupyter-extensions.bash /tmp/install-jupyter-extensions.bash
+RUN /tmp/install-jupyter-extensions.bash
+
+# Install IRKernel
+RUN r -e "install.packages('IRkernel', version='1.1.1')" && \
+    r -e "IRkernel::installspec(prefix='${CONDA_DIR}')"
 
 # Disable history.
 ADD ipython_config.py ${CONDA_PREFIX}/etc/ipython/
