@@ -60,7 +60,8 @@ RUN apt-get update -qq --yes > /dev/null && \
     r-base-dev=${R_VERSION} \
     r-recommended=${R_VERSION} \
     r-cran-littler=0.3.11-1.2004.0 \
-    r-cran-mgcv r-cran-rpart r-cran-survival r-cran-matrix=1.3-3-1.2004.0 \
+    r-cran-mgcv=1.8-36-1cran1.2004.0 \
+    r-cran-rpart r-cran-survival r-cran-matrix=1.3-3-1.2004.0 \
     nodejs \
     npm > /dev/null
 
