@@ -35,6 +35,7 @@ cran_packages <- c(
   "fivethirtyeight", "0.6.1",
   "FrF2", "2.2-2",
   "gdistance", "1.3-6",
+  "geojsonio", "0.9.4",
   "ggplot2", "3.3.5",
   "ggmap", "3.0.0",
   "ggsn", "0.5.0",
