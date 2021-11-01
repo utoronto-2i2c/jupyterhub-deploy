@@ -54,7 +54,6 @@ dependencies:
     - geopy
     - otter-grader==3.1.4
 
-
     # nbextensions
     - jupyterthemes==0.20.0
     - qgrid==1.3.1

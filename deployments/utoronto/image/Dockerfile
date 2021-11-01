@@ -63,7 +63,7 @@ RUN apt-get update -qq --yes > /dev/null && \
     r-cran-nlme \
     r-cran-matrix=1.3-3-1.2004.0 \
     nodejs \
-    npm /dev/null
+    npm > /dev/null
 
 # Install desktop packages
 RUN apt-get update -qq --yes > /dev/null && \
