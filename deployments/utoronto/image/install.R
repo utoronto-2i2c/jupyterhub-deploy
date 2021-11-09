@@ -80,6 +80,8 @@ cran_packages <- c(
   "statmod", "1.4.36",
   "stopwords", "2.2",
   "sysfonts", "0.8.5",
+  # for use with ottr and otter-grader
+  "testthat", "3.1.0",
   "TH.data", "1.0-10",
   "tidygraph", "1.2.0",
   "tidytext", "0.3.1",
@@ -99,7 +101,9 @@ cran_packages <- c(
 github_packages <- c(
   # https://github.com/utoronto-2i2c/jupyterhub-deploy/issues/31
   "cutterkom/generativeart", "56ce6beed0433748b4372bfffba0e1c9f2740f9b",
-  "djnavarro/flametree", "0999530f758d074c214c068726e68786bb4698f6"
+  "djnavarro/flametree", "0999530f758d074c214c068726e68786bb4698f6",
+  # for use with otter-grader
+  "ucbds-infra/ottr", "1d39645cb718ef17e71fa3d54f2871cfd5cc991f"
 )
 
 for (i in seq(1, length(cran_packages), 2)) {
