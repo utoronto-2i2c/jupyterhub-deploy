@@ -50,6 +50,8 @@ cran_packages <- c(
   "multcomp", "1.4-17",
   "partitions", "1.10-2",
   "plotROC", "2.2.1",
+  # From https://2i2c.freshdesk.com/a/tickets/49
+  "polite", "0.1.1",
   "polynom", "1.4-0",
   "prettydoc", "0.4.1",
   "proto", "1.0.0",
