@@ -1,3 +1,7 @@
+# 🔴 DEPRECATED - DO NOT USE THIS
+
+## UToronto hub is now deployed from ➡️ https://github.com/2i2c-org/infrastructure
+
 # 2i2c JupyterHub for University of Toronto
 
 Check it out at [jupyter.utoronto.ca](https://jupyter.utoronto.ca)
